@@ -1,0 +1,1346 @@
+openapi: 3.1.0
+info:
+  description: DFMailbox is a decentralized way to send messages to other DiamondFire
+    plots.
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: DFMailbox API
+  version: 0.4.0
+externalDocs:
+  description: External docs can be found here
+  url: https://dfmailbox.dev/
+servers:
+- url: "http://{host}:{port}/v0"
+  variables:
+    host:
+      default: localhost
+    port:
+      default: "8080"
+- url: https://api.dfmailbox.dev/v0
+- url: https://api2.dfmailbox.dev/v0
+tags:
+- description: Everything that plots can do
+  name: plot
+- description: Some miscellaneous methods for this instance
+  name: instance
+- description: "Used by other instances to communicate, plots shouldn't need to call\
+    \ these methods"
+  name: federation
+paths:
+  /plot:
+    delete:
+      description: "If this plot was previously owned by this instance, all the mailbox\
+        \ contents and trusted plots will be deleted."
+      operationId: unregisterPlot
+      responses:
+        "200":
+          description: OK
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/unregisterPlot_409_response'
+          description: Plot deletion error
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedRegistered'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Unregister plot
+      tags:
+      - plot
+    get:
+      description: Returns the general information of the plot. Doesn't return the
+        trusted plots.
+      operationId: getPlotInfo
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plot'
+          description: OK
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedRegistered'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Get plot info
+      tags:
+      - plot
+    post:
+      description: Register the authenticated plot
+      operationId: registerPlot
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateInstance_request'
+        description: "The public key of the owned instance. If registering to this\
+          \ instance, use a null"
+        required: true
+      responses:
+        "201":
+          description: OK
+        "409":
+          content:
+            application/json:
+              example:
+                error: unknown_instance
+              schema:
+                $ref: '#/components/schemas/registerPlot_409_response'
+          description: Plot registration error
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedUnregistered'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Register plot
+      tags:
+      - plot
+    put:
+      description: "Change the instance public key. If the key is null, all the mailbox\
+        \ contents and trusted plots will be deleted."
+      operationId: updateInstance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updateInstance_request'
+        description: "The public key of your new instance, null for this instance"
+        required: true
+      responses:
+        "200":
+          description: OK
+        "409":
+          content:
+            application/json:
+              example:
+                error: plot_not_registered
+              schema:
+                $ref: '#/components/schemas/updateInstance_409_response'
+          description: Plot instance instance replacement error
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedRegistered'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Change plot instance
+      tags:
+      - plot
+  /plot/mailbox:
+    delete:
+      description: Gets items with an id that is greated than msg_id and deletes items
+        that are less than or equal to msg_id. This prevents the mailbox from being
+        filled with useless data.
+      operationId: checkCleanMailbox
+      parameters:
+      - $ref: '#/components/parameters/MessageId'
+      - $ref: '#/components/parameters/MessageLimit'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchMailboxResult'
+          description: OK
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedHostAuth'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Check and cleanup mailbox
+      tags:
+      - plot
+    get:
+      description: Gets items with an id that is greated than msg_id
+      operationId: checkMailbox
+      parameters:
+      - $ref: '#/components/parameters/MessageId'
+      - $ref: '#/components/parameters/MessageLimit'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FetchMailboxResult'
+          description: OK
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedHostAuth'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Check mailbox for items
+      tags:
+      - plot
+    post:
+      description: Append a list of items to the back of the mailbox
+      operationId: sendMailToSelf
+      requestBody:
+        $ref: '#/components/requestBodies/SendItems'
+      responses:
+        "200":
+          $ref: '#/components/responses/SendItemsResult'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedHostAuth'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Send items to mailbox
+      tags:
+      - plot
+  /plot/query:
+    post:
+      description: Runs a list of mailbox queries and returns the result in the same
+        order as Usually this is ran by a plot's polling due to the rate limiting
+        as of writing this api. It doesn't really make sense to hit this endpoint
+        in a non DF plot context.
+      operationId: query
+      requestBody:
+        content:
+          application/json:
+            example:
+            - type: send
+              to: 42998
+              value:
+              - type: chat
+                name: DynamicCake
+                msg: "The `id: chat` field isn't defined by diamondfire, rather by\
+                  \ the plots themselves"
+              - type: chat
+                name: DynamicCake
+                msg: "This field is merely a convention, not a standard"
+            - type: peek_clean
+              after: 55
+            schema: {}
+        description: A list of mailbox query operations
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+              - type: send
+                msg_id: 43
+              - type: peek_clean
+                result:
+                  items:
+                  - msg_id: 56
+                    timestamp: 1746169563
+                    plot_origin: 42998
+                    val:
+                      type: chat
+                      name: Sputt
+                      msg: Hello world
+                  - msg_id: 57
+                    timestamp: 1746169610
+                    plot_origin: 42998
+                    val:
+                      type: chat
+                      name: Notch
+                      msg: Oh hi I am the real Notch
+                  until: 57
+                  current_id: 57
+              schema: {}
+          description: Processed all queries
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedHostAuth'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Run mailbox query
+      tags:
+      - plot
+  /plot/api-key:
+    delete:
+      description: Revokes every api key including the one you are using. This only
+        revokes keys on this instance.
+      operationId: revokeAllApiKeys
+      responses:
+        "200":
+          description: OK
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedRegistered'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Revoke all API keys
+      tags:
+      - plot
+    get:
+      description: Return all non revoked SHA256 hashed API keys
+      operationId: getApiKeyHashes
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+              - hashed_key: fh2ZUxgDyPv1a0BudAlkRUDDM7u7HG/qeXD2pqXzA48=
+                created_at: 1749445121
+              - hashed_key: QLhmwfU2vtwuOGNFjMQKFDh6ILp+qtSufalOjX13iv0=
+                created_at: 1749257047
+              schema: {}
+          description: OK
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedRegistered'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: List all API key hashes
+      tags:
+      - plot
+    post:
+      description: "Generate an API key (any random string of utf-8 bytes) while storing\
+        \ a hashed version. Once lost, the key cannot be recovered."
+      operationId: createApiKey
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createApiKey_200_response'
+          description: OK
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedRegistered'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Create an API Key
+      tags:
+      - plot
+  /plot/trust:
+    delete:
+      description: Remove trust from plots
+      operationId: untrustPlot
+      parameters:
+      - description: "A list of comma separated plots to un-trust, empty means un-trust\
+          \ all"
+        explode: true
+        in: query
+        name: plots
+        required: false
+        schema:
+          description: Space separated plotIds
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+              - 206028
+              - 42998
+              schema: {}
+          description: OK
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedHostAuth'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Un-trust plots
+      tags:
+      - plot
+    get:
+      description: List all plot ids that are trusted
+      operationId: getTrusted
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: OK
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedHostAuth'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Get trusted plots
+      tags:
+      - plot
+    post:
+      description: Add plots to trust list
+      operationId: trustPlots
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+        description: Plots to trust
+        required: true
+      responses:
+        "200":
+          description: OK
+        "400":
+          content:
+            application/json:
+              example:
+                error: plot_not_registered
+              schema:
+                $ref: '#/components/schemas/trustPlots_400_response'
+          description: Plot doesn't exist
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedHostAuth'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Trust plots
+      tags:
+      - plot
+  /plots/{plot_id}:
+    get:
+      description: Returns the general information of the plot. Doesn't return the
+        trusted plots.
+      operationId: lookupPlot
+      parameters:
+      - $ref: '#/components/parameters/PlotId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Plot'
+          description: Found
+        "404":
+          description: Plot not registered
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Get another plot's info
+      tags:
+      - plot
+  /plots/{plot_id}/mailbox:
+    post:
+      description: Sends an item to another mailbox. This mailbox can be from another
+        instance.
+      operationId: sendMail
+      parameters:
+      - $ref: '#/components/parameters/PlotId'
+      requestBody:
+        $ref: '#/components/requestBodies/SendItems'
+      responses:
+        "200":
+          $ref: '#/components/responses/SendItemsResult'
+        "401":
+          $ref: '#/components/responses/Unauthorized'
+        "403":
+          $ref: '#/components/responses/ExpectedHostAuth'
+      security:
+      - ApiKey: []
+      - Plot: []
+      summary: Send an item into another mailbox
+      tags:
+      - plot
+  /instance:
+    get:
+      description: This is to check what the instance thinks the address is
+      operationId: lookupInstanceAddress
+      parameters:
+      - description: The server key to check the address of
+        explode: true
+        in: query
+        name: public_key
+        required: true
+        schema:
+          $ref: '#/components/schemas/PublicKey'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/lookupInstanceAddress_200_response'
+          description: Found
+        "404":
+          description: Unknown instance
+      summary: Get instance address by key
+      tags:
+      - instance
+    post:
+      description: Add an instance to this instance's database. This will make this
+        instance tell the newly added instance to add itself.
+      operationId: introduceInstance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/introduceInstance_request'
+        description: The instance information
+        required: true
+      responses:
+        "200":
+          description: OK
+        "400":
+          content:
+            application/json:
+              example:
+                error: non_compliance
+                error_message: "JSON is not formatted correctly. Bad Json: {...}"
+              schema:
+                $ref: '#/components/schemas/introduceInstance_400_response'
+          description: Error introducing instance
+      summary: Introduce an instance
+      tags:
+      - instance
+  /federation/instance:
+    delete:
+      description: "When the private key gets compromised and you have the key, you\
+        \ may \"revoke\" it. To do this, complete a challenge"
+      operationId: markKeyAsCompromised
+      parameters:
+      - description: Your server public key
+        explode: true
+        in: query
+        name: public_key
+        required: true
+        schema:
+          $ref: '#/components/schemas/PublicKey'
+        style: form
+      - description: A challenge from `POST /federation/challenge`
+        explode: true
+        in: query
+        name: challenge
+        required: true
+        schema:
+          $ref: '#/components/schemas/Uuid'
+        style: form
+      - description: The signature of it
+        explode: true
+        in: query
+        name: signature
+        required: true
+        schema:
+          $ref: '#/components/schemas/Signature'
+        style: form
+      responses:
+        "200":
+          description: Key successfully marked as compromised
+        "400":
+          content:
+            application/json:
+              example:
+                error: challenge_failed
+              schema:
+                $ref: '#/components/schemas/markKeyAsCompromised_400_response'
+          description: Error
+      summary: Mark instance key as compromised
+      tags:
+      - federation
+    get:
+      description: Verify that the instance owns the ed25519 private key by providing
+        a uuid challenge.
+      operationId: verifyIdentity
+      parameters:
+      - description: A random uuid that will get signed
+        explode: true
+        in: query
+        name: challenge
+        required: true
+        schema:
+          $ref: '#/components/schemas/Uuid'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/verifyIdentity_200_response'
+          description: OK
+        "400":
+          description: Challenge is not a uuid
+      summary: Verify the instance's ownership of the private key
+      tags:
+      - federation
+    post:
+      description: Request a new identity token by completing a challenge after being
+        identified
+      operationId: refreshToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/refreshToken_request'
+        description: A challenge from `POST /federation/challenge` and your public
+          key
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+                identity_token: Pheikae3eeghahn8oruire this can literally be anything
+                  <128 chars
+              schema:
+                $ref: '#/components/schemas/refreshToken_200_response'
+          description: OK
+      summary: Refresh identity token
+      tags:
+      - federation
+  /federation/challenge:
+    post:
+      description: "Create a UUID challenge will be valid for 120 seconds and used\
+        \ to validate that your own your private key.<br> To complete a challenge,\
+        \ sign the `instance address to bytes` + `uuid bytes` and base64 the signature."
+      operationId: getChallenge
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getChallenge_201_response'
+          description: Created
+      summary: Create Challenge
+      tags:
+      - federation
+  /federation/mailbox:
+    post:
+      description: Send mail to a plot this instance owns
+      operationId: crossSend
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/crossSend_request'
+        description: Where to send the mail
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/crossSend_200_response'
+          description: OK
+        "400":
+          content:
+            application/json:
+              example:
+                error: receiver_not_registered
+              schema:
+                $ref: '#/components/schemas/CrossInstanceSendError'
+          description: Failed to send
+      security:
+      - Identity: []
+      summary: Send mail to a plot
+      tags:
+      - federation
+components:
+  parameters:
+    PlotId:
+      description: "An id assigned by DiamondFire to identify a plot, this ID can\
+        \ be used in /plot <plot_id>"
+      explode: false
+      in: path
+      name: plot_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/PlotId'
+      style: simple
+    MessageId:
+      description: The id to get messages after
+      example: 0
+      explode: true
+      in: query
+      name: msg_id
+      required: true
+      schema:
+        $ref: '#/components/schemas/MailboxItemId'
+      style: form
+    MessageLimit:
+      description: The max amount of messsages that can be returned
+      example: 50
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        $ref: '#/components/schemas/MailboxItemId'
+      style: form
+  requestBodies:
+    SendItems:
+      content:
+        application/json:
+          example:
+          - id: str
+            val: Hello DFMailbox
+          - id: vec
+            x: 1
+            "y": 2
+            z: 3
+          schema: {}
+      description: "Items to send. The first item goes in first, last item goes in\
+        \ last."
+      required: true
+  responses:
+    SendItemsResult:
+      content:
+        application/json:
+          example:
+            msg_id: 5
+          schema:
+            $ref: '#/components/schemas/inline_object'
+      description: Sent
+    Unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_1'
+      description: No authorization present
+    ExpectedRegistered:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_2'
+      description: Expected any registered
+    ExpectedUnregistered:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_3'
+      description: Expected unregistered
+    ExpectedHostAuth:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object_4'
+      description: Expected host auth
+  schemas:
+    Plot:
+      description: A known plot
+      example:
+        owner: owner
+        public_key: public_key
+        address: api2.dfmailbox.dev
+        mailbox_msg_id: 42
+        plot_id: 41808
+      properties:
+        plot_id:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+        owner:
+          description: A UUID (universally unique identifier)
+          type: string
+        public_key:
+          description: A base64 URL encoded ed25519 public key
+          nullable: true
+          type: string
+        address:
+          description: "An `Address`, if null, means it has the private key has been\
+            \ compromised"
+          example: api2.dfmailbox.dev
+          nullable: true
+          type: string
+        mailbox_msg_id:
+          description: A mailbox item id that refers to an item in any mailbox
+          example: 42
+          format: int64
+          type: integer
+      required:
+      - address
+      - mailbox_msg_id
+      - owner
+      - plot_id
+      - public_key
+    MailboxItem:
+      description: An item in the mailbox
+      properties:
+        msg_id:
+          description: A mailbox item id that refers to an item in any mailbox
+          example: 42
+          format: int64
+          type: integer
+        timestamp:
+          description: A unix timestamp
+          type: integer
+        plot_origin:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+        val: {}
+      required:
+      - msg_id
+      - plot_origin
+      - timestamp
+      - val
+    FetchMailboxResult:
+      description: A response for any request that returns mailbox items
+      example:
+        items:
+        - msg_id: 33
+          timestamp: 1749866772
+          plot_origin: 43780
+          val:
+            id: dict
+            val:
+              name:
+                id: str
+                val: Notch
+              msg:
+                id: comp
+                val: <b>Hello chat</b>
+        - msg_id: 34
+          timestamp: 1749866774
+          plot_origin: 43780
+          val:
+            id: dict
+            val:
+              name:
+                id: str
+                val: Jeremaster
+              msg:
+                id: comp
+                val: Wow this is a real message!
+        until: 34
+        current_id: 34
+      properties:
+        items: {}
+        until:
+          description: A mailbox item id that refers to an item in any mailbox
+          example: 42
+          format: int64
+          type: integer
+        current_id:
+          description: A mailbox item id that refers to an item in any mailbox
+          example: 42
+          format: int64
+          type: integer
+      required:
+      - current_id
+      - items
+      - until
+    MailboxQueryOperation:
+      description: An action to perform on a mailbox
+      oneOf:
+      - $ref: '#/components/schemas/MailboxQueryOperation_oneOf'
+      - $ref: '#/components/schemas/MailboxQueryOperation_oneOf_1'
+      - $ref: '#/components/schemas/MailboxQueryOperation_oneOf_2'
+      - $ref: '#/components/schemas/MailboxQueryOperation_oneOf_3'
+    MailboxQueryResponse:
+      description: A response for any request that queries a mailbox
+      oneOf:
+      - $ref: '#/components/schemas/MailboxQueryResponse_oneOf'
+      - $ref: '#/components/schemas/MailboxQueryResponse_oneOf'
+      - $ref: '#/components/schemas/MailboxQueryResponse_oneOf_1'
+      - $ref: '#/components/schemas/MailboxQueryResponse_oneOf_2'
+      - $ref: '#/components/schemas/MailboxQueryResponse_oneOf_3'
+    SendItemsError:
+      description: An error emitted when a send inside an instance occurs
+      oneOf:
+      - $ref: '#/components/schemas/SendItemsError_oneOf'
+      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
+    CrossInstanceSendError:
+      description: An error emitted when a cross instance send fails
+      oneOf:
+      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
+      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
+      - $ref: '#/components/schemas/CrossInstanceSendError_oneOf'
+      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
+      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
+      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
+      required:
+      - error
+    PublicKey:
+      description: A base64 URL encoded ed25519 public key
+      example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+      type: string
+    InstanceKey:
+      description: An optional base64 URL encoded ed25519 public key
+      nullable: true
+      type: string
+      example: null
+    Signature:
+      description: A base64 encoded ed25519 signature
+      example: 7lv2/Z05t53d6LyjA+kXFO5gSIO308sgJ3pX5YAB2Kw9wXP6ZztXrYfkUVSRW0b+cIlPul7F5WQ9dPRPuYH3AA==
+      type: string
+    Address:
+      description: An address pointing to another DFMailbox instance
+      example: api.dfmailbox.dev
+      type: string
+    Uuid:
+      description: A UUID (universally unique identifier)
+      type: string
+    PlotId:
+      description: "An id assigned by DiamondFire to identify a plot, this ID can\
+        \ be used in /plot <plot_id>"
+      example: 41808
+      format: int32
+      type: integer
+    MailboxItemId:
+      description: A mailbox item id that refers to an item in any mailbox
+      example: 42
+      format: int64
+      type: integer
+    Json: {}
+    ErrorMessage:
+      description: A non-standard error message explaining in human terms
+      type: string
+    Role:
+      description: Possible authentication roles
+      enum:
+      - unregistered
+      - host
+      - registered
+      type: string
+    updateInstance_request:
+      properties:
+        instance:
+          description: An optional base64 URL encoded ed25519 public key
+          nullable: true
+          type: string
+          example: null
+      required:
+      - instance
+    updateInstance_409_response_oneOf:
+      example:
+        error: plot_not_registered
+      properties:
+        error:
+          enum:
+          - plot_not_registered
+          type: string
+    updateInstance_409_response_oneOf_1:
+      example:
+        error: unknown_instance
+      properties:
+        error:
+          enum:
+          - unknown_instance
+          type: string
+    updateInstance_409_response_oneOf_2:
+      properties:
+        error:
+          enum:
+          - instance_key_compromised
+          type: string
+    updateInstance_409_response:
+      oneOf:
+      - $ref: '#/components/schemas/updateInstance_409_response_oneOf'
+      - $ref: '#/components/schemas/updateInstance_409_response_oneOf_1'
+      - $ref: '#/components/schemas/updateInstance_409_response_oneOf_2'
+      required:
+      - error
+    registerPlot_409_response:
+      oneOf:
+      - $ref: '#/components/schemas/updateInstance_409_response_oneOf_1'
+      - $ref: '#/components/schemas/updateInstance_409_response_oneOf_2'
+      required:
+      - error
+    unregisterPlot_409_response:
+      example:
+        error: plot_not_registered
+      properties:
+        error:
+          enum:
+          - plot_not_registered
+          type: string
+      required:
+      - error
+    createApiKey_200_response:
+      description: Any random string of utf-8 characters
+      example:
+        api_key: api_key
+      properties:
+        api_key:
+          type: string
+      required:
+      - api_key
+    trustPlots_400_response:
+      example:
+        error: plot_not_registered
+      properties:
+        error: {}
+      required:
+      - error
+    lookupInstanceAddress_200_response:
+      example:
+        address: api.dfmailbox.dev
+      properties:
+        address:
+          description: An address pointing to another DFMailbox instance
+          example: api.dfmailbox.dev
+          type: string
+      required:
+      - address
+    introduceInstance_request:
+      properties:
+        public_key:
+          description: A base64 URL encoded ed25519 public key
+          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+          type: string
+        address:
+          description: An address pointing to another DFMailbox instance
+          example: api.dfmailbox.dev
+          type: string
+      required:
+      - address
+      - public_key
+    introduceInstance_400_response_oneOf:
+      example:
+        error_message: error_message
+        error: ""
+      properties:
+        error: {}
+        error_message:
+          description: A non-standard error message explaining in human terms
+          type: string
+      required:
+      - error
+      - error_message
+    introduceInstance_400_response_oneOf_1:
+      properties:
+        error: {}
+        expected_address:
+          description: An address pointing to another DFMailbox instance
+          example: api.dfmailbox.dev
+          type: string
+      required:
+      - error
+      - expected_address
+    introduceInstance_400_response_oneOf_2:
+      properties:
+        error: {}
+        expected_key:
+          description: A base64 URL encoded ed25519 public key
+          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+          type: string
+      required:
+      - error
+      - expected_key
+    introduceInstance_400_response:
+      oneOf:
+      - $ref: '#/components/schemas/introduceInstance_400_response_oneOf'
+      - $ref: '#/components/schemas/introduceInstance_400_response_oneOf'
+      - $ref: '#/components/schemas/introduceInstance_400_response_oneOf_1'
+      - $ref: '#/components/schemas/introduceInstance_400_response_oneOf_2'
+    verifyIdentity_200_response:
+      example:
+        public_key: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+        address: api.dfmailbox.dev
+        signature: 7lv2/Z05t53d6LyjA+kXFO5gSIO308sgJ3pX5YAB2Kw9wXP6ZztXrYfkUVSRW0b+cIlPul7F5WQ9dPRPuYH3AA==
+      properties:
+        public_key:
+          description: A base64 URL encoded ed25519 public key
+          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+          type: string
+        signature:
+          description: A base64 encoded ed25519 signature
+          example: 7lv2/Z05t53d6LyjA+kXFO5gSIO308sgJ3pX5YAB2Kw9wXP6ZztXrYfkUVSRW0b+cIlPul7F5WQ9dPRPuYH3AA==
+          type: string
+        address:
+          description: An address pointing to another DFMailbox instance
+          example: api.dfmailbox.dev
+          type: string
+      required:
+      - address
+      - public_key
+      - signature
+    refreshToken_request:
+      properties:
+        challenge:
+          description: A UUID (universally unique identifier)
+          type: string
+        signature:
+          description: A base64 encoded ed25519 signature
+          example: 7lv2/Z05t53d6LyjA+kXFO5gSIO308sgJ3pX5YAB2Kw9wXP6ZztXrYfkUVSRW0b+cIlPul7F5WQ9dPRPuYH3AA==
+          type: string
+      required:
+      - challenge
+      - signature
+    refreshToken_200_response:
+      example:
+        identity_token: lksbdgnabgabgfkaisgbewigewkgfdsgbasjbskjf
+      properties:
+        identity_token:
+          example: lksbdgnabgabgfkaisgbewigewkgfdsgbasjbskjf
+          type: string
+      required:
+      - identity_token
+    markKeyAsCompromised_400_response_oneOf:
+      example:
+        error: ""
+      properties:
+        error: {}
+    markKeyAsCompromised_400_response:
+      oneOf:
+      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
+      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
+      required:
+      - error
+    getChallenge_201_response:
+      example:
+        challenge: challenge
+      properties:
+        challenge:
+          description: A UUID (universally unique identifier)
+          type: string
+      requried:
+      - challenge
+    crossSend_request:
+      properties:
+        from:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+        to:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+        data: {}
+      required:
+      - data
+      - from
+      - to
+    crossSend_200_response:
+      example:
+        msg_id: 42
+      properties:
+        msg_id:
+          description: A mailbox item id that refers to an item in any mailbox
+          example: 42
+          format: int64
+          type: integer
+      required:
+      - msg_id
+    MailboxQueryOperation_oneOf:
+      description: Imitates GET /plot/mailbox
+      example:
+        type: peek
+        after: 32
+        limit: null
+      properties:
+        type: {}
+        after:
+          description: A mailbox item id that refers to an item in any mailbox
+          example: 42
+          format: int64
+          type: integer
+        limit:
+          nullable: true
+          type: integer
+      required:
+      - after
+      - limit
+      - type
+    MailboxQueryOperation_oneOf_1:
+      description: Imitates DELETE /plot/mailbox
+      example:
+        type: peek_clean
+        after: 32
+      properties:
+        type: {}
+        after:
+          description: A mailbox item id that refers to an item in any mailbox
+          example: 42
+          format: int64
+          type: integer
+      required:
+      - after
+      - type
+    MailboxQueryOperation_oneOf_2:
+      description: Imitates POST /plot/mailbox
+      example:
+        type: send
+        to: 12345
+        value:
+        - id: str
+          val: You know what is better than &fballs?
+        - id: str
+          val: It's <white>balls
+      properties:
+        type: {}
+        value: {}
+        to:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+      required:
+      - to
+      - type
+      - value
+    MailboxQueryOperation_oneOf_3:
+      description: Imitates
+      example:
+        type: cleanup
+        before_at: 4
+      properties:
+        type: {}
+        before_at:
+          description: A mailbox item id that refers to an item in any mailbox
+          example: 42
+          format: int64
+          type: integer
+      required:
+      - before_at
+      - type
+    MailboxQueryResponse_oneOf:
+      properties:
+        type: {}
+        result:
+          $ref: '#/components/schemas/FetchMailboxResult'
+      required:
+      - result
+      - type
+    MailboxQueryResponse_oneOf_1:
+      example:
+        type: send
+        msg_id: 35
+      properties:
+        type: {}
+        msg_id:
+          description: A mailbox item id that refers to an item in any mailbox
+          example: 42
+          format: int64
+          type: integer
+      required:
+      - msg_id
+      - type
+    MailboxQueryResponse_oneOf_2:
+      properties:
+        type: {}
+      required:
+      - type
+    MailboxQueryResponse_oneOf_3:
+      properties:
+        type: {}
+        msg:
+          $ref: '#/components/schemas/SendItemsError'
+      required:
+      - msg
+      - type
+    SendItemsError_oneOf:
+      properties:
+        error: {}
+        expected_key:
+          description: A base64 URL encoded ed25519 public key
+          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+          type: string
+    CrossInstanceSendError_oneOf:
+      properties:
+        error: {}
+        actual_key:
+          description: A base64 URL encoded ed25519 public key
+          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+          type: string
+      required:
+      - actual_key
+      - error
+    inline_object:
+      description: The message Id before the send
+      example:
+        msg_id: 42
+      properties:
+        msg_id:
+          description: A mailbox item id that refers to an item in any mailbox
+          example: 42
+          format: int64
+          type: integer
+      required:
+      - msg_id
+    inline_object_1:
+      example:
+        error: unauthorized
+      properties:
+        error: {}
+      required:
+      - error
+    inline_object_2:
+      example:
+        error: access_denied
+        expected:
+        - host
+        - registered
+        received: unregistered
+      properties:
+        error: {}
+        expected: {}
+        received:
+          $ref: '#/components/schemas/Role'
+      required:
+      - error
+      - expected
+      - received
+    inline_object_3:
+      example:
+        error: access_denied
+        expected:
+        - unregistered
+        received: host
+      properties:
+        error: {}
+        expected: {}
+        received:
+          $ref: '#/components/schemas/Role'
+      required:
+      - error
+      - expected
+      - received
+    inline_object_4:
+      example:
+        error: access_denied
+        expected:
+        - host
+        received: unregistered
+      properties:
+        error: {}
+        expected: {}
+        received:
+          $ref: '#/components/schemas/Role'
+      required:
+      - error
+      - expected
+      - received
+  securitySchemes:
+    ApiKey:
+      description: "An api key obtained through `POST /plot/api-key`. Once lost, it\
+        \ cannot be recovered, only revoked."
+      in: header
+      name: x-api-key
+      type: apiKey
+    Identity:
+      description: A key used by instances to communicate with one another
+      in: header
+      name: x-identity-token
+      type: apiKey
+    Plot:
+      description: "Can only be used by DiamondFire IPs, found in the User-Agent header.\
+        \ If you are a user of this API, you cannot use this authentication."
+      in: header
+      name: user-agent
+      type: apiKey
