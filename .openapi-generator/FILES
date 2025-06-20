@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 README.md
 api/openapi.yaml
@@ -107,7 +106,4 @@ model_update_instance_409_response_one_of_2.go
 model_update_instance_request.go
 model_verify_identity_200_response.go
 response.go
-test/api_federation_test.go
-test/api_instance_test.go
-test/api_plot_test.go
 utils.go
