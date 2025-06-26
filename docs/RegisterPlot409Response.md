@@ -4,13 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Error** | **string** |  | 
+**Type** | **interface{}** |  | 
+**Title** | **interface{}** |  | 
+**Status** | **int32** | HTTP status code | 
+**Details** | **string** |  | 
+**PublicKey** | **string** | A base64 URL encoded ed25519 public key | 
+**InstanceKey** | **string** | A base64 URL encoded ed25519 public key | 
 
 ## Methods
 
 ### NewRegisterPlot409Response
 
-`func NewRegisterPlot409Response(error_ string, ) *RegisterPlot409Response`
+`func NewRegisterPlot409Response(type_ interface{}, title interface{}, status int32, details string, publicKey string, instanceKey string, ) *RegisterPlot409Response`
 
 NewRegisterPlot409Response instantiates a new RegisterPlot409Response object
 This constructor will assign default values to properties that have it defined,
@@ -25,24 +30,144 @@ NewRegisterPlot409ResponseWithDefaults instantiates a new RegisterPlot409Respons
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetError
+### GetType
 
-`func (o *RegisterPlot409Response) GetError() string`
+`func (o *RegisterPlot409Response) GetType() interface{}`
 
-GetError returns the Error field if non-nil, zero value otherwise.
+GetType returns the Type field if non-nil, zero value otherwise.
 
-### GetErrorOk
+### GetTypeOk
 
-`func (o *RegisterPlot409Response) GetErrorOk() (*string, bool)`
+`func (o *RegisterPlot409Response) GetTypeOk() (*interface{}, bool)`
 
-GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetError
+### SetType
 
-`func (o *RegisterPlot409Response) SetError(v string)`
+`func (o *RegisterPlot409Response) SetType(v interface{})`
 
-SetError sets Error field to given value.
+SetType sets Type field to given value.
+
+
+### SetTypeNil
+
+`func (o *RegisterPlot409Response) SetTypeNil(b bool)`
+
+ SetTypeNil sets the value for Type to be an explicit nil
+
+### UnsetType
+`func (o *RegisterPlot409Response) UnsetType()`
+
+UnsetType ensures that no value is present for Type, not even an explicit nil
+### GetTitle
+
+`func (o *RegisterPlot409Response) GetTitle() interface{}`
+
+GetTitle returns the Title field if non-nil, zero value otherwise.
+
+### GetTitleOk
+
+`func (o *RegisterPlot409Response) GetTitleOk() (*interface{}, bool)`
+
+GetTitleOk returns a tuple with the Title field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTitle
+
+`func (o *RegisterPlot409Response) SetTitle(v interface{})`
+
+SetTitle sets Title field to given value.
+
+
+### SetTitleNil
+
+`func (o *RegisterPlot409Response) SetTitleNil(b bool)`
+
+ SetTitleNil sets the value for Title to be an explicit nil
+
+### UnsetTitle
+`func (o *RegisterPlot409Response) UnsetTitle()`
+
+UnsetTitle ensures that no value is present for Title, not even an explicit nil
+### GetStatus
+
+`func (o *RegisterPlot409Response) GetStatus() int32`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *RegisterPlot409Response) GetStatusOk() (*int32, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *RegisterPlot409Response) SetStatus(v int32)`
+
+SetStatus sets Status field to given value.
+
+
+### GetDetails
+
+`func (o *RegisterPlot409Response) GetDetails() string`
+
+GetDetails returns the Details field if non-nil, zero value otherwise.
+
+### GetDetailsOk
+
+`func (o *RegisterPlot409Response) GetDetailsOk() (*string, bool)`
+
+GetDetailsOk returns a tuple with the Details field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDetails
+
+`func (o *RegisterPlot409Response) SetDetails(v string)`
+
+SetDetails sets Details field to given value.
+
+
+### GetPublicKey
+
+`func (o *RegisterPlot409Response) GetPublicKey() string`
+
+GetPublicKey returns the PublicKey field if non-nil, zero value otherwise.
+
+### GetPublicKeyOk
+
+`func (o *RegisterPlot409Response) GetPublicKeyOk() (*string, bool)`
+
+GetPublicKeyOk returns a tuple with the PublicKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPublicKey
+
+`func (o *RegisterPlot409Response) SetPublicKey(v string)`
+
+SetPublicKey sets PublicKey field to given value.
+
+
+### GetInstanceKey
+
+`func (o *RegisterPlot409Response) GetInstanceKey() string`
+
+GetInstanceKey returns the InstanceKey field if non-nil, zero value otherwise.
+
+### GetInstanceKeyOk
+
+`func (o *RegisterPlot409Response) GetInstanceKeyOk() (*string, bool)`
+
+GetInstanceKeyOk returns a tuple with the InstanceKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetInstanceKey
+
+`func (o *RegisterPlot409Response) SetInstanceKey(v string)`
+
+SetInstanceKey sets InstanceKey field to given value.
 
 
 

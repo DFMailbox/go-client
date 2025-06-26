@@ -6,7 +6,7 @@ info:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: DFMailbox API
-  version: 0.4.0
+  version: 0.5.0
 externalDocs:
   description: External docs can be found here
   url: https://dfmailbox.dev/
@@ -38,9 +38,15 @@ paths:
           description: OK
         "409":
           content:
-            application/json:
+            application/problem+json:
+              example:
+                type: /v0/problems/unregistered-plot
+                title: Target plot is not registered
+                status: 409
+                details: The plot with id 51998 is not registered and can't be unregistered
+                plot_id: 51998
               schema:
-                $ref: '#/components/schemas/unregisterPlot_409_response'
+                $ref: '#/components/schemas/UnregisteredPlotError'
           description: Plot deletion error
         "401":
           $ref: '#/components/responses/Unauthorized'
@@ -89,9 +95,13 @@ paths:
           description: OK
         "409":
           content:
-            application/json:
+            application/problem+json:
               example:
-                error: unknown_instance
+                type: /v0/problems/unknown-instance
+                title: Specified instance has not been identified
+                status: 409
+                details: The instance with address api2.dfmailbox.dev is not identified
+                public_key: k2k4r4+0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uM
               schema:
                 $ref: '#/components/schemas/registerPlot_409_response'
           description: Plot registration error
@@ -121,9 +131,13 @@ paths:
           description: OK
         "409":
           content:
-            application/json:
+            application/problem+json:
               example:
-                error: plot_not_registered
+                type: /v0/problems/unknown-instance
+                title: Specified instance has not been identified
+                status: 409
+                details: The instance with address api2.dfmailbox.dev is not identified
+                address: api2.dfmailbox.dev
               schema:
                 $ref: '#/components/schemas/updateInstance_409_response'
           description: Plot instance instance replacement error
@@ -207,9 +221,8 @@ paths:
   /plot/query:
     post:
       description: Runs a list of mailbox queries and returns the result in the same
-        order as Usually this is ran by a plot's polling due to the rate limiting
-        as of writing this api. It doesn't really make sense to hit this endpoint
-        in a non DF plot context.
+        order. Usually this is ran automatically by the provided dfmailbox library.
+        It doesn't really make sense to hit this endpoint in a non DF plot context.
       operationId: query
       requestBody:
         content:
@@ -293,11 +306,6 @@ paths:
         "200":
           content:
             application/json:
-              example:
-              - hashed_key: fh2ZUxgDyPv1a0BudAlkRUDDM7u7HG/qeXD2pqXzA48=
-                created_at: 1749445121
-              - hashed_key: QLhmwfU2vtwuOGNFjMQKFDh6ILp+qtSufalOjX13iv0=
-                created_at: 1749257047
               schema: {}
           description: OK
         "401":
@@ -333,11 +341,13 @@ paths:
       - plot
   /plot/trust:
     delete:
-      description: Remove trust from plots
+      description: Remove trust from plots. Does not check if plots are trusted or
+        even exist
       operationId: untrustPlot
       parameters:
       - description: "A list of comma separated plots to un-trust, empty means un-trust\
           \ all"
+        example: "51998,51999"
         explode: true
         in: query
         name: plots
@@ -396,13 +406,18 @@ paths:
       responses:
         "200":
           description: OK
-        "400":
+        "409":
           content:
-            application/json:
+            application/problem+json:
               example:
-                error: plot_not_registered
+                type: /v0/problems/unregistered-plots
+                title: Some plots are not registered
+                status: 409
+                details: The plot with id 51998 is not registered
+                plot_ids:
+                - 51998
               schema:
-                $ref: '#/components/schemas/trustPlots_400_response'
+                $ref: '#/components/schemas/UnregisteredPlotsError'
           description: Plot doesn't exist
         "401":
           $ref: '#/components/responses/Unauthorized'
@@ -429,6 +444,10 @@ paths:
                 $ref: '#/components/schemas/Plot'
           description: Found
         "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UnregisteredPlotError'
           description: Plot not registered
       security:
       - ApiKey: []
@@ -448,6 +467,18 @@ paths:
       responses:
         "200":
           $ref: '#/components/responses/SendItemsResult'
+        "400":
+          content:
+            application/problem+json:
+              example:
+                type: /v0/problems/unregistered-plot
+                title: Target plot is not registered
+                status: 400
+                details: The plot with id 51998 is not registered and can't be unregistered
+                plot_id: 51998
+              schema:
+                $ref: '#/components/schemas/CrossInstanceSendError'
+          description: Plot not registered
         "401":
           $ref: '#/components/responses/Unauthorized'
         "403":
@@ -479,6 +510,10 @@ paths:
                 $ref: '#/components/schemas/lookupInstanceAddress_200_response'
           description: Found
         "404":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/UnknownInstanceError'
           description: Unknown instance
       summary: Get instance address by key
       tags:
@@ -498,14 +533,7 @@ paths:
         "200":
           description: OK
         "400":
-          content:
-            application/json:
-              example:
-                error: non_compliance
-                error_message: "JSON is not formatted correctly. Bad Json: {...}"
-              schema:
-                $ref: '#/components/schemas/introduceInstance_400_response'
-          description: Error introducing instance
+          $ref: '#/components/responses/InstanceIntroductionError'
       summary: Introduce an instance
       tags:
       - instance
@@ -544,9 +572,11 @@ paths:
           description: Key successfully marked as compromised
         "400":
           content:
-            application/json:
+            application/problem+json:
               example:
-                error: challenge_failed
+                type: /v0/problems/challenge-failed
+                title: Failed to complete challenge
+                challenge: 497dcba3-ecbf-4587-a2dd-5eb0665e6880
               schema:
                 $ref: '#/components/schemas/markKeyAsCompromised_400_response'
           description: Error
@@ -574,7 +604,7 @@ paths:
                 $ref: '#/components/schemas/verifyIdentity_200_response'
           description: OK
         "400":
-          description: Challenge is not a uuid
+          description: Input validation error
       summary: Verify the instance's ownership of the private key
       tags:
       - federation
@@ -600,6 +630,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/refreshToken_200_response'
           description: OK
+        "400":
+          content:
+            application/problem+json:
+              example:
+                type: /v0/problems/invalid-challenge
+                title: Challenge isn't valid
+                offending_challenge: 497dcba3-ecbf-4587-a2dd-5eb0665e6880
+              schema:
+                $ref: '#/components/schemas/refreshToken_400_response'
+          description: Cannot refresh
       summary: Refresh identity token
       tags:
       - federation
@@ -639,9 +679,13 @@ paths:
           description: OK
         "400":
           content:
-            application/json:
+            application/problem+json:
               example:
-                error: receiver_not_registered
+                type: /v0/problems/cross-instance-send/sender-not-registered
+                title: Sender is not registered
+                status: 400
+                details: The plot with id 51998 is not registered
+                sender: 51998
               schema:
                 $ref: '#/components/schemas/CrossInstanceSendError'
           description: Failed to send
@@ -664,7 +708,7 @@ components:
       style: simple
     MessageId:
       description: The id to get messages after
-      example: 0
+      example: 3
       explode: true
       in: query
       name: msg_id
@@ -708,28 +752,39 @@ components:
       description: Sent
     Unauthorized:
       content:
-        application/json:
+        application/problem+json:
           schema:
             $ref: '#/components/schemas/inline_object_1'
       description: No authorization present
     ExpectedRegistered:
       content:
-        application/json:
+        application/problem+json:
           schema:
             $ref: '#/components/schemas/inline_object_2'
       description: Expected any registered
     ExpectedUnregistered:
       content:
-        application/json:
+        application/problem+json:
           schema:
             $ref: '#/components/schemas/inline_object_3'
       description: Expected unregistered
     ExpectedHostAuth:
       content:
-        application/json:
+        application/problem+json:
           schema:
             $ref: '#/components/schemas/inline_object_4'
       description: Expected host auth
+    InstanceIntroductionError:
+      content:
+        application/problem+json:
+          example:
+            type: /v0/problems/instance-introduction/mismatched-public-key
+            title: Provided public key does not match server's public key
+            status: 400
+            expected_public_key: dfm.example.com
+          schema:
+            $ref: '#/components/schemas/inline_object_5'
+      description: Error introducing instance
   schemas:
     Plot:
       description: A known plot
@@ -854,22 +909,177 @@ components:
       - $ref: '#/components/schemas/MailboxQueryResponse_oneOf_1'
       - $ref: '#/components/schemas/MailboxQueryResponse_oneOf_2'
       - $ref: '#/components/schemas/MailboxQueryResponse_oneOf_3'
+    UntrustedPlotError:
+      description: Plot is not trusted
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        details:
+          type: string
+        plot_id:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+      required:
+      - details
+      - plot_id
+      - status
+      - title
+      - type
+    ChallengeFailedError:
+      description: Failed to complete challenge
+      example:
+        type: /v0/problems/challenge-failed
+        title: Failed to complete challenge
+        challenge: f4ba1dbd-dc5d-4ea8-8693-0f6c81b67248
+        status: 400
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        challenge:
+          description: Base64 representation of the challenge
+          type: string
+      required:
+      - challenge
+      - status
+      - title
+      - type
+    InvalidChallengeError:
+      description: Invalid challenge
+      example:
+        type: /v0/problems/invalid-challenge
+        title: Challenge isn't valid
+        status: 400
+        offending_challenge: 497dcba3-ecbf-4587-a2dd-5eb0665e6880
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        offending_challenge:
+          description: A UUID (universally unique identifier)
+          type: string
+      required:
+      - offending_challenge
+      - status
+      - title
+      - type
+    UnregisteredPlotError:
+      description: Plot not registered
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        details:
+          type: string
+        plot_id:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+      required:
+      - details
+      - plot_id
+      - status
+      - title
+      - type
+    UnregisteredPlotsError:
+      description: Some plots are not registered
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        details:
+          type: string
+        plot_ids: {}
+      required:
+      - details
+      - plot_ids
+      - status
+      - title
+      - type
     SendItemsError:
       description: An error emitted when a send inside an instance occurs
       oneOf:
-      - $ref: '#/components/schemas/SendItemsError_oneOf'
-      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
+      - $ref: '#/components/schemas/UntrustedPlotError'
+      - $ref: '#/components/schemas/UnregisteredPlotError'
     CrossInstanceSendError:
-      description: An error emitted when a cross instance send fails
+      description: An error emitted when a cross instance send fails. All of these
+        errors are emitted in the perspective of this instance.
       oneOf:
-      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
-      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
       - $ref: '#/components/schemas/CrossInstanceSendError_oneOf'
-      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
-      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
-      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
+      - $ref: '#/components/schemas/CrossInstanceSendError_oneOf'
+      - $ref: '#/components/schemas/CrossInstanceSendError_oneOf_1'
+      - $ref: '#/components/schemas/CrossInstanceSendError_oneOf_2'
+      - $ref: '#/components/schemas/CrossInstanceSendError_oneOf_2'
+      - $ref: '#/components/schemas/CrossInstanceSendError_oneOf_3'
+    UnknownInstanceError:
+      description: Unknown instance error
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        details:
+          type: string
+        public_key:
+          description: A base64 URL encoded ed25519 public key
+          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+          type: string
       required:
-      - error
+      - details
+      - public_key
+      - status
+      - title
+      - type
+    InstanceKeyCompromised:
+      description: Instance key has been invalidated therefore being marked as compromised
+      example:
+        type: /v0/problems/instance-key-compromised
+        title: Instance key has been compromised
+        status: 409
+        details: The instance key has been compromised
+        instance_key: k2k4r4+0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uM
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        details:
+          type: string
+        instance_key:
+          description: A base64 URL encoded ed25519 public key
+          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+          type: string
+      required:
+      - details
+      - instance_key
+      - status
+      - title
+      - type
     PublicKey:
       description: A base64 URL encoded ed25519 public key
       example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
@@ -902,9 +1112,6 @@ components:
       format: int64
       type: integer
     Json: {}
-    ErrorMessage:
-      description: A non-standard error message explaining in human terms
-      type: string
     Role:
       description: Possible authentication roles
       enum:
@@ -912,6 +1119,26 @@ components:
       - host
       - registered
       type: string
+    NonComplianceError:
+      description: Shown when another instance isn't complying with the protocol
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        detail:
+          type: string
+      required:
+      - detail
+      - status
+      - title
+      - type
+    Status:
+      description: HTTP status code
+      example: 400
+      type: integer
     updateInstance_request:
       properties:
         instance:
@@ -921,51 +1148,15 @@ components:
           example: null
       required:
       - instance
-    updateInstance_409_response_oneOf:
-      example:
-        error: plot_not_registered
-      properties:
-        error:
-          enum:
-          - plot_not_registered
-          type: string
-    updateInstance_409_response_oneOf_1:
-      example:
-        error: unknown_instance
-      properties:
-        error:
-          enum:
-          - unknown_instance
-          type: string
-    updateInstance_409_response_oneOf_2:
-      properties:
-        error:
-          enum:
-          - instance_key_compromised
-          type: string
     updateInstance_409_response:
       oneOf:
-      - $ref: '#/components/schemas/updateInstance_409_response_oneOf'
-      - $ref: '#/components/schemas/updateInstance_409_response_oneOf_1'
-      - $ref: '#/components/schemas/updateInstance_409_response_oneOf_2'
-      required:
-      - error
+      - $ref: '#/components/schemas/UnregisteredPlotError'
+      - $ref: '#/components/schemas/UnknownInstanceError'
+      - $ref: '#/components/schemas/InstanceKeyCompromised'
     registerPlot_409_response:
       oneOf:
-      - $ref: '#/components/schemas/updateInstance_409_response_oneOf_1'
-      - $ref: '#/components/schemas/updateInstance_409_response_oneOf_2'
-      required:
-      - error
-    unregisterPlot_409_response:
-      example:
-        error: plot_not_registered
-      properties:
-        error:
-          enum:
-          - plot_not_registered
-          type: string
-      required:
-      - error
+      - $ref: '#/components/schemas/UnknownInstanceError'
+      - $ref: '#/components/schemas/InstanceKeyCompromised'
     createApiKey_200_response:
       description: Any random string of utf-8 characters
       example:
@@ -975,13 +1166,6 @@ components:
           type: string
       required:
       - api_key
-    trustPlots_400_response:
-      example:
-        error: plot_not_registered
-      properties:
-        error: {}
-      required:
-      - error
     lookupInstanceAddress_200_response:
       example:
         address: api.dfmailbox.dev
@@ -1005,44 +1189,6 @@ components:
       required:
       - address
       - public_key
-    introduceInstance_400_response_oneOf:
-      example:
-        error_message: error_message
-        error: ""
-      properties:
-        error: {}
-        error_message:
-          description: A non-standard error message explaining in human terms
-          type: string
-      required:
-      - error
-      - error_message
-    introduceInstance_400_response_oneOf_1:
-      properties:
-        error: {}
-        expected_address:
-          description: An address pointing to another DFMailbox instance
-          example: api.dfmailbox.dev
-          type: string
-      required:
-      - error
-      - expected_address
-    introduceInstance_400_response_oneOf_2:
-      properties:
-        error: {}
-        expected_key:
-          description: A base64 URL encoded ed25519 public key
-          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
-          type: string
-      required:
-      - error
-      - expected_key
-    introduceInstance_400_response:
-      oneOf:
-      - $ref: '#/components/schemas/introduceInstance_400_response_oneOf'
-      - $ref: '#/components/schemas/introduceInstance_400_response_oneOf'
-      - $ref: '#/components/schemas/introduceInstance_400_response_oneOf_1'
-      - $ref: '#/components/schemas/introduceInstance_400_response_oneOf_2'
     verifyIdentity_200_response:
       example:
         public_key: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
@@ -1086,17 +1232,15 @@ components:
           type: string
       required:
       - identity_token
-    markKeyAsCompromised_400_response_oneOf:
-      example:
-        error: ""
-      properties:
-        error: {}
+    refreshToken_400_response:
+      oneOf:
+      - $ref: '#/components/schemas/InvalidChallengeError'
+      - $ref: '#/components/schemas/ChallengeFailedError'
+      - $ref: '#/components/schemas/UnknownInstanceError'
     markKeyAsCompromised_400_response:
       oneOf:
-      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
-      - $ref: '#/components/schemas/markKeyAsCompromised_400_response_oneOf'
-      required:
-      - error
+      - $ref: '#/components/schemas/InvalidChallengeError'
+      - $ref: '#/components/schemas/ChallengeFailedError'
     getChallenge_201_response:
       example:
         challenge: challenge
@@ -1104,7 +1248,7 @@ components:
         challenge:
           description: A UUID (universally unique identifier)
           type: string
-      requried:
+      required:
       - challenge
     crossSend_request:
       properties:
@@ -1244,23 +1388,105 @@ components:
       required:
       - msg
       - type
-    SendItemsError_oneOf:
-      properties:
-        error: {}
-        expected_key:
-          description: A base64 URL encoded ed25519 public key
-          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
-          type: string
     CrossInstanceSendError_oneOf:
       properties:
-        error: {}
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        details:
+          type: string
+        sender:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+      required:
+      - details
+      - sender
+      - status
+      - title
+      - type
+    CrossInstanceSendError_oneOf_1:
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        details:
+          type: string
+        sender:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
         actual_key:
           description: A base64 URL encoded ed25519 public key
           example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
           type: string
       required:
       - actual_key
-      - error
+      - details
+      - sender
+      - status
+      - title
+      - type
+    CrossInstanceSendError_oneOf_2:
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        details:
+          type: string
+        receiver:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+      required:
+      - details
+      - receiver
+      - status
+      - title
+      - type
+    CrossInstanceSendError_oneOf_3:
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        details:
+          type: string
+        sender:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+        receiver:
+          description: "An id assigned by DiamondFire to identify a plot, this ID\
+            \ can be used in /plot <plot_id>"
+          example: 41808
+          format: int32
+          type: integer
+      required:
+      - details
+      - sender
+      - status
+      - title
+      - type
     inline_object:
       description: The message Id before the send
       example:
@@ -1275,57 +1501,143 @@ components:
       - msg_id
     inline_object_1:
       example:
-        error: unauthorized
+        type: https://tools.ietf.org/html/rfc9110#section-15.5.2
+        title: Unauthorized
+        status: 401
       properties:
-        error: {}
+        type: {}
+        title: {}
+        status: {}
       required:
-      - error
+      - status
+      - title
+      - type
     inline_object_2:
       example:
-        error: access_denied
+        type: /v0/problems/expected-role/any
+        title: Expected any registered role
+        status: 403
         expected:
         - host
         - registered
         received: unregistered
       properties:
-        error: {}
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
         expected: {}
-        received:
-          $ref: '#/components/schemas/Role'
+        received: {}
       required:
-      - error
       - expected
       - received
+      - status
+      - title
+      - type
     inline_object_3:
       example:
-        error: access_denied
+        type: /v0/problems/expected-role/unregistered
+        title: Expected no registion
+        status: 403
         expected:
         - unregistered
         received: host
       properties:
-        error: {}
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
         expected: {}
         received:
           $ref: '#/components/schemas/Role'
       required:
-      - error
       - expected
       - received
+      - status
+      - title
+      - type
     inline_object_4:
       example:
-        error: access_denied
+        type: /v0/problems/expected-role/host
+        title: Expected host auth
+        status: 403
         expected:
         - host
         received: unregistered
       properties:
-        error: {}
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
         expected: {}
         received:
           $ref: '#/components/schemas/Role'
       required:
-      - error
       - expected
       - received
+      - status
+      - title
+      - type
+    inline_object_5_oneOf:
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        detail:
+          type: string
+      required:
+      - detail
+      - status
+      - title
+      - type
+    inline_object_5_oneOf_1:
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        expected_address:
+          description: An address pointing to another DFMailbox instance
+          example: api.dfmailbox.dev
+          type: string
+      required:
+      - expected_address
+      - status
+      - title
+      - type
+    inline_object_5_oneOf_2:
+      properties:
+        type: {}
+        title: {}
+        status:
+          description: HTTP status code
+          example: 400
+          type: integer
+        expected_key:
+          description: A base64 URL encoded ed25519 public key
+          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+          type: string
+      required:
+      - status
+      - title
+      - type
+    inline_object_5:
+      oneOf:
+      - $ref: '#/components/schemas/NonComplianceError'
+      - $ref: '#/components/schemas/inline_object_5_oneOf'
+      - $ref: '#/components/schemas/inline_object_5_oneOf_1'
+      - $ref: '#/components/schemas/inline_object_5_oneOf_2'
   securitySchemes:
     ApiKey:
       description: "An api key obtained through `POST /plot/api-key`. Once lost, it\

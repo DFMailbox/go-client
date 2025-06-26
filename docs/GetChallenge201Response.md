@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Challenge** | Pointer to **string** | A UUID (universally unique identifier) | [optional] 
+**Challenge** | **string** | A UUID (universally unique identifier) | 
 
 ## Methods
 
 ### NewGetChallenge201Response
 
-`func NewGetChallenge201Response() *GetChallenge201Response`
+`func NewGetChallenge201Response(challenge string, ) *GetChallenge201Response`
 
 NewGetChallenge201Response instantiates a new GetChallenge201Response object
 This constructor will assign default values to properties that have it defined,
@@ -44,11 +44,6 @@ and a boolean to check if the value has been set.
 
 SetChallenge sets Challenge field to given value.
 
-### HasChallenge
-
-`func (o *GetChallenge201Response) HasChallenge() bool`
-
-HasChallenge returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

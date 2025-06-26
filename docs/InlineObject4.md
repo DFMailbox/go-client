@@ -4,7 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Error** | **interface{}** |  | 
+**Type** | **interface{}** |  | 
+**Title** | **interface{}** |  | 
+**Status** | **int32** | HTTP status code | 
 **Expected** | **interface{}** |  | 
 **Received** | [**Role**](Role.md) |  | 
 
@@ -12,7 +14,7 @@ Name | Type | Description | Notes
 
 ### NewInlineObject4
 
-`func NewInlineObject4(error_ interface{}, expected interface{}, received Role, ) *InlineObject4`
+`func NewInlineObject4(type_ interface{}, title interface{}, status int32, expected interface{}, received Role, ) *InlineObject4`
 
 NewInlineObject4 instantiates a new InlineObject4 object
 This constructor will assign default values to properties that have it defined,
@@ -27,36 +29,86 @@ NewInlineObject4WithDefaults instantiates a new InlineObject4 object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetError
+### GetType
 
-`func (o *InlineObject4) GetError() interface{}`
+`func (o *InlineObject4) GetType() interface{}`
 
-GetError returns the Error field if non-nil, zero value otherwise.
+GetType returns the Type field if non-nil, zero value otherwise.
 
-### GetErrorOk
+### GetTypeOk
 
-`func (o *InlineObject4) GetErrorOk() (*interface{}, bool)`
+`func (o *InlineObject4) GetTypeOk() (*interface{}, bool)`
 
-GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetError
+### SetType
 
-`func (o *InlineObject4) SetError(v interface{})`
+`func (o *InlineObject4) SetType(v interface{})`
 
-SetError sets Error field to given value.
+SetType sets Type field to given value.
 
 
-### SetErrorNil
+### SetTypeNil
 
-`func (o *InlineObject4) SetErrorNil(b bool)`
+`func (o *InlineObject4) SetTypeNil(b bool)`
 
- SetErrorNil sets the value for Error to be an explicit nil
+ SetTypeNil sets the value for Type to be an explicit nil
 
-### UnsetError
-`func (o *InlineObject4) UnsetError()`
+### UnsetType
+`func (o *InlineObject4) UnsetType()`
 
-UnsetError ensures that no value is present for Error, not even an explicit nil
+UnsetType ensures that no value is present for Type, not even an explicit nil
+### GetTitle
+
+`func (o *InlineObject4) GetTitle() interface{}`
+
+GetTitle returns the Title field if non-nil, zero value otherwise.
+
+### GetTitleOk
+
+`func (o *InlineObject4) GetTitleOk() (*interface{}, bool)`
+
+GetTitleOk returns a tuple with the Title field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTitle
+
+`func (o *InlineObject4) SetTitle(v interface{})`
+
+SetTitle sets Title field to given value.
+
+
+### SetTitleNil
+
+`func (o *InlineObject4) SetTitleNil(b bool)`
+
+ SetTitleNil sets the value for Title to be an explicit nil
+
+### UnsetTitle
+`func (o *InlineObject4) UnsetTitle()`
+
+UnsetTitle ensures that no value is present for Title, not even an explicit nil
+### GetStatus
+
+`func (o *InlineObject4) GetStatus() int32`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *InlineObject4) GetStatusOk() (*int32, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *InlineObject4) SetStatus(v int32)`
+
+SetStatus sets Status field to given value.
+
+
 ### GetExpected
 
 `func (o *InlineObject4) GetExpected() interface{}`

@@ -4,14 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Error** | **interface{}** |  | 
-**ActualKey** | **string** | A base64 URL encoded ed25519 public key | 
+**Type** | **interface{}** |  | 
+**Title** | **interface{}** |  | 
+**Status** | **int32** | HTTP status code | 
+**Details** | **string** |  | 
+**Sender** | **int32** | An id assigned by DiamondFire to identify a plot, this ID can be used in /plot &lt;plot_id&gt; | 
 
 ## Methods
 
 ### NewCrossInstanceSendErrorOneOf
 
-`func NewCrossInstanceSendErrorOneOf(error_ interface{}, actualKey string, ) *CrossInstanceSendErrorOneOf`
+`func NewCrossInstanceSendErrorOneOf(type_ interface{}, title interface{}, status int32, details string, sender int32, ) *CrossInstanceSendErrorOneOf`
 
 NewCrossInstanceSendErrorOneOf instantiates a new CrossInstanceSendErrorOneOf object
 This constructor will assign default values to properties that have it defined,
@@ -26,54 +29,124 @@ NewCrossInstanceSendErrorOneOfWithDefaults instantiates a new CrossInstanceSendE
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetError
+### GetType
 
-`func (o *CrossInstanceSendErrorOneOf) GetError() interface{}`
+`func (o *CrossInstanceSendErrorOneOf) GetType() interface{}`
 
-GetError returns the Error field if non-nil, zero value otherwise.
+GetType returns the Type field if non-nil, zero value otherwise.
 
-### GetErrorOk
+### GetTypeOk
 
-`func (o *CrossInstanceSendErrorOneOf) GetErrorOk() (*interface{}, bool)`
+`func (o *CrossInstanceSendErrorOneOf) GetTypeOk() (*interface{}, bool)`
 
-GetErrorOk returns a tuple with the Error field if it's non-nil, zero value otherwise
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetError
+### SetType
 
-`func (o *CrossInstanceSendErrorOneOf) SetError(v interface{})`
+`func (o *CrossInstanceSendErrorOneOf) SetType(v interface{})`
 
-SetError sets Error field to given value.
+SetType sets Type field to given value.
 
 
-### SetErrorNil
+### SetTypeNil
 
-`func (o *CrossInstanceSendErrorOneOf) SetErrorNil(b bool)`
+`func (o *CrossInstanceSendErrorOneOf) SetTypeNil(b bool)`
 
- SetErrorNil sets the value for Error to be an explicit nil
+ SetTypeNil sets the value for Type to be an explicit nil
 
-### UnsetError
-`func (o *CrossInstanceSendErrorOneOf) UnsetError()`
+### UnsetType
+`func (o *CrossInstanceSendErrorOneOf) UnsetType()`
 
-UnsetError ensures that no value is present for Error, not even an explicit nil
-### GetActualKey
+UnsetType ensures that no value is present for Type, not even an explicit nil
+### GetTitle
 
-`func (o *CrossInstanceSendErrorOneOf) GetActualKey() string`
+`func (o *CrossInstanceSendErrorOneOf) GetTitle() interface{}`
 
-GetActualKey returns the ActualKey field if non-nil, zero value otherwise.
+GetTitle returns the Title field if non-nil, zero value otherwise.
 
-### GetActualKeyOk
+### GetTitleOk
 
-`func (o *CrossInstanceSendErrorOneOf) GetActualKeyOk() (*string, bool)`
+`func (o *CrossInstanceSendErrorOneOf) GetTitleOk() (*interface{}, bool)`
 
-GetActualKeyOk returns a tuple with the ActualKey field if it's non-nil, zero value otherwise
+GetTitleOk returns a tuple with the Title field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetActualKey
+### SetTitle
 
-`func (o *CrossInstanceSendErrorOneOf) SetActualKey(v string)`
+`func (o *CrossInstanceSendErrorOneOf) SetTitle(v interface{})`
 
-SetActualKey sets ActualKey field to given value.
+SetTitle sets Title field to given value.
+
+
+### SetTitleNil
+
+`func (o *CrossInstanceSendErrorOneOf) SetTitleNil(b bool)`
+
+ SetTitleNil sets the value for Title to be an explicit nil
+
+### UnsetTitle
+`func (o *CrossInstanceSendErrorOneOf) UnsetTitle()`
+
+UnsetTitle ensures that no value is present for Title, not even an explicit nil
+### GetStatus
+
+`func (o *CrossInstanceSendErrorOneOf) GetStatus() int32`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *CrossInstanceSendErrorOneOf) GetStatusOk() (*int32, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *CrossInstanceSendErrorOneOf) SetStatus(v int32)`
+
+SetStatus sets Status field to given value.
+
+
+### GetDetails
+
+`func (o *CrossInstanceSendErrorOneOf) GetDetails() string`
+
+GetDetails returns the Details field if non-nil, zero value otherwise.
+
+### GetDetailsOk
+
+`func (o *CrossInstanceSendErrorOneOf) GetDetailsOk() (*string, bool)`
+
+GetDetailsOk returns a tuple with the Details field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDetails
+
+`func (o *CrossInstanceSendErrorOneOf) SetDetails(v string)`
+
+SetDetails sets Details field to given value.
+
+
+### GetSender
+
+`func (o *CrossInstanceSendErrorOneOf) GetSender() int32`
+
+GetSender returns the Sender field if non-nil, zero value otherwise.
+
+### GetSenderOk
+
+`func (o *CrossInstanceSendErrorOneOf) GetSenderOk() (*int32, bool)`
+
+GetSenderOk returns a tuple with the Sender field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSender
+
+`func (o *CrossInstanceSendErrorOneOf) SetSender(v int32)`
+
+SetSender sets Sender field to given value.
 
 
 
