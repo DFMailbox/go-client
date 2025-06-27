@@ -16,40 +16,40 @@ import (
 	"fmt"
 )
 
-// checks if the AddressKeyPair type satisfies the MappedNullable interface at compile time
-var _ MappedNullable = &AddressKeyPair{}
+// checks if the NullableAddressKeyPair type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &NullableAddressKeyPair{}
 
-// AddressKeyPair Addess and key
-type AddressKeyPair struct {
+// NullableAddressKeyPair Addess and key
+type NullableAddressKeyPair struct {
 	// An address pointing to another DFMailbox instance
 	Address string `json:"address"`
 	// A base64 URL encoded ed25519 public key
 	PublicKey string `json:"public_key"`
 }
 
-type _AddressKeyPair AddressKeyPair
+type _NullableAddressKeyPair NullableAddressKeyPair
 
-// NewAddressKeyPair instantiates a new AddressKeyPair object
+// NewNullableAddressKeyPair instantiates a new NullableAddressKeyPair object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAddressKeyPair(address string, publicKey string) *AddressKeyPair {
-	this := AddressKeyPair{}
+func NewNullableAddressKeyPair(address string, publicKey string) *NullableAddressKeyPair {
+	this := NullableAddressKeyPair{}
 	this.Address = address
 	this.PublicKey = publicKey
 	return &this
 }
 
-// NewAddressKeyPairWithDefaults instantiates a new AddressKeyPair object
+// NewNullableAddressKeyPairWithDefaults instantiates a new NullableAddressKeyPair object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewAddressKeyPairWithDefaults() *AddressKeyPair {
-	this := AddressKeyPair{}
+func NewNullableAddressKeyPairWithDefaults() *NullableAddressKeyPair {
+	this := NullableAddressKeyPair{}
 	return &this
 }
 
 // GetAddress returns the Address field value
-func (o *AddressKeyPair) GetAddress() string {
+func (o *NullableAddressKeyPair) GetAddress() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -60,7 +60,7 @@ func (o *AddressKeyPair) GetAddress() string {
 
 // GetAddressOk returns a tuple with the Address field value
 // and a boolean to check if the value has been set.
-func (o *AddressKeyPair) GetAddressOk() (*string, bool) {
+func (o *NullableAddressKeyPair) GetAddressOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,12 +68,12 @@ func (o *AddressKeyPair) GetAddressOk() (*string, bool) {
 }
 
 // SetAddress sets field value
-func (o *AddressKeyPair) SetAddress(v string) {
+func (o *NullableAddressKeyPair) SetAddress(v string) {
 	o.Address = v
 }
 
 // GetPublicKey returns the PublicKey field value
-func (o *AddressKeyPair) GetPublicKey() string {
+func (o *NullableAddressKeyPair) GetPublicKey() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -84,7 +84,7 @@ func (o *AddressKeyPair) GetPublicKey() string {
 
 // GetPublicKeyOk returns a tuple with the PublicKey field value
 // and a boolean to check if the value has been set.
-func (o *AddressKeyPair) GetPublicKeyOk() (*string, bool) {
+func (o *NullableAddressKeyPair) GetPublicKeyOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -92,11 +92,11 @@ func (o *AddressKeyPair) GetPublicKeyOk() (*string, bool) {
 }
 
 // SetPublicKey sets field value
-func (o *AddressKeyPair) SetPublicKey(v string) {
+func (o *NullableAddressKeyPair) SetPublicKey(v string) {
 	o.PublicKey = v
 }
 
-func (o AddressKeyPair) MarshalJSON() ([]byte, error) {
+func (o NullableAddressKeyPair) MarshalJSON() ([]byte, error) {
 	toSerialize,err := o.ToMap()
 	if err != nil {
 		return []byte{}, err
@@ -104,14 +104,14 @@ func (o AddressKeyPair) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-func (o AddressKeyPair) ToMap() (map[string]interface{}, error) {
+func (o NullableAddressKeyPair) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
 	toSerialize["address"] = o.Address
 	toSerialize["public_key"] = o.PublicKey
 	return toSerialize, nil
 }
 
-func (o *AddressKeyPair) UnmarshalJSON(data []byte) (err error) {
+func (o *NullableAddressKeyPair) UnmarshalJSON(data []byte) (err error) {
 	// This validates that all required properties are included in the JSON object
 	// by unmarshalling the object into a generic map with string keys and checking
 	// that every required field exists as a key in the generic map.
@@ -134,53 +134,53 @@ func (o *AddressKeyPair) UnmarshalJSON(data []byte) (err error) {
 		}
 	}
 
-	varAddressKeyPair := _AddressKeyPair{}
+	varNullableAddressKeyPair := _NullableAddressKeyPair{}
 
 	decoder := json.NewDecoder(bytes.NewReader(data))
 	decoder.DisallowUnknownFields()
-	err = decoder.Decode(&varAddressKeyPair)
+	err = decoder.Decode(&varNullableAddressKeyPair)
 
 	if err != nil {
 		return err
 	}
 
-	*o = AddressKeyPair(varAddressKeyPair)
+	*o = NullableAddressKeyPair(varNullableAddressKeyPair)
 
 	return err
 }
 
-type NullableAddressKeyPair struct {
-	value *AddressKeyPair
+type NullableNullableAddressKeyPair struct {
+	value *NullableAddressKeyPair
 	isSet bool
 }
 
-func (v NullableAddressKeyPair) Get() *AddressKeyPair {
+func (v NullableNullableAddressKeyPair) Get() *NullableAddressKeyPair {
 	return v.value
 }
 
-func (v *NullableAddressKeyPair) Set(val *AddressKeyPair) {
+func (v *NullableNullableAddressKeyPair) Set(val *NullableAddressKeyPair) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableAddressKeyPair) IsSet() bool {
+func (v NullableNullableAddressKeyPair) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableAddressKeyPair) Unset() {
+func (v *NullableNullableAddressKeyPair) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableAddressKeyPair(val *AddressKeyPair) *NullableAddressKeyPair {
-	return &NullableAddressKeyPair{value: val, isSet: true}
+func NewNullableNullableAddressKeyPair(val *NullableAddressKeyPair) *NullableNullableAddressKeyPair {
+	return &NullableNullableAddressKeyPair{value: val, isSet: true}
 }
 
-func (v NullableAddressKeyPair) MarshalJSON() ([]byte, error) {
+func (v NullableNullableAddressKeyPair) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableAddressKeyPair) UnmarshalJSON(src []byte) error {
+func (v *NullableNullableAddressKeyPair) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

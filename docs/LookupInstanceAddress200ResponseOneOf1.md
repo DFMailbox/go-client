@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Addresses** | **interface{}** |  | 
+**Instances** | **interface{}** |  | 
 
 ## Methods
 
 ### NewLookupInstanceAddress200ResponseOneOf1
 
-`func NewLookupInstanceAddress200ResponseOneOf1(addresses interface{}, ) *LookupInstanceAddress200ResponseOneOf1`
+`func NewLookupInstanceAddress200ResponseOneOf1(instances interface{}, ) *LookupInstanceAddress200ResponseOneOf1`
 
 NewLookupInstanceAddress200ResponseOneOf1 instantiates a new LookupInstanceAddress200ResponseOneOf1 object
 This constructor will assign default values to properties that have it defined,
@@ -25,36 +25,36 @@ NewLookupInstanceAddress200ResponseOneOf1WithDefaults instantiates a new LookupI
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetAddresses
+### GetInstances
 
-`func (o *LookupInstanceAddress200ResponseOneOf1) GetAddresses() interface{}`
+`func (o *LookupInstanceAddress200ResponseOneOf1) GetInstances() interface{}`
 
-GetAddresses returns the Addresses field if non-nil, zero value otherwise.
+GetInstances returns the Instances field if non-nil, zero value otherwise.
 
-### GetAddressesOk
+### GetInstancesOk
 
-`func (o *LookupInstanceAddress200ResponseOneOf1) GetAddressesOk() (*interface{}, bool)`
+`func (o *LookupInstanceAddress200ResponseOneOf1) GetInstancesOk() (*interface{}, bool)`
 
-GetAddressesOk returns a tuple with the Addresses field if it's non-nil, zero value otherwise
+GetInstancesOk returns a tuple with the Instances field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAddresses
+### SetInstances
 
-`func (o *LookupInstanceAddress200ResponseOneOf1) SetAddresses(v interface{})`
+`func (o *LookupInstanceAddress200ResponseOneOf1) SetInstances(v interface{})`
 
-SetAddresses sets Addresses field to given value.
+SetInstances sets Instances field to given value.
 
 
-### SetAddressesNil
+### SetInstancesNil
 
-`func (o *LookupInstanceAddress200ResponseOneOf1) SetAddressesNil(b bool)`
+`func (o *LookupInstanceAddress200ResponseOneOf1) SetInstancesNil(b bool)`
 
- SetAddressesNil sets the value for Addresses to be an explicit nil
+ SetInstancesNil sets the value for Instances to be an explicit nil
 
-### UnsetAddresses
-`func (o *LookupInstanceAddress200ResponseOneOf1) UnsetAddresses()`
+### UnsetInstances
+`func (o *LookupInstanceAddress200ResponseOneOf1) UnsetInstances()`
 
-UnsetAddresses ensures that no value is present for Addresses, not even an explicit nil
+UnsetInstances ensures that no value is present for Instances, not even an explicit nil
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

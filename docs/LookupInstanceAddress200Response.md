@@ -4,15 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Address** | **string** | An address pointing to another DFMailbox instance | 
-**PublicKey** | **string** | A base64 URL encoded ed25519 public key | 
+**Instance** | [**NullableAddressKeyPair**](NullableAddressKeyPair.md) |  | 
 **Instances** | **interface{}** |  | 
 
 ## Methods
 
 ### NewLookupInstanceAddress200Response
 
-`func NewLookupInstanceAddress200Response(address string, publicKey string, instances interface{}, ) *LookupInstanceAddress200Response`
+`func NewLookupInstanceAddress200Response(instance NullableAddressKeyPair, instances interface{}, ) *LookupInstanceAddress200Response`
 
 NewLookupInstanceAddress200Response instantiates a new LookupInstanceAddress200Response object
 This constructor will assign default values to properties that have it defined,
@@ -27,44 +26,24 @@ NewLookupInstanceAddress200ResponseWithDefaults instantiates a new LookupInstanc
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetAddress
+### GetInstance
 
-`func (o *LookupInstanceAddress200Response) GetAddress() string`
+`func (o *LookupInstanceAddress200Response) GetInstance() NullableAddressKeyPair`
 
-GetAddress returns the Address field if non-nil, zero value otherwise.
+GetInstance returns the Instance field if non-nil, zero value otherwise.
 
-### GetAddressOk
+### GetInstanceOk
 
-`func (o *LookupInstanceAddress200Response) GetAddressOk() (*string, bool)`
+`func (o *LookupInstanceAddress200Response) GetInstanceOk() (*NullableAddressKeyPair, bool)`
 
-GetAddressOk returns a tuple with the Address field if it's non-nil, zero value otherwise
+GetInstanceOk returns a tuple with the Instance field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetAddress
+### SetInstance
 
-`func (o *LookupInstanceAddress200Response) SetAddress(v string)`
+`func (o *LookupInstanceAddress200Response) SetInstance(v NullableAddressKeyPair)`
 
-SetAddress sets Address field to given value.
-
-
-### GetPublicKey
-
-`func (o *LookupInstanceAddress200Response) GetPublicKey() string`
-
-GetPublicKey returns the PublicKey field if non-nil, zero value otherwise.
-
-### GetPublicKeyOk
-
-`func (o *LookupInstanceAddress200Response) GetPublicKeyOk() (*string, bool)`
-
-GetPublicKeyOk returns a tuple with the PublicKey field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPublicKey
-
-`func (o *LookupInstanceAddress200Response) SetPublicKey(v string)`
-
-SetPublicKey sets PublicKey field to given value.
+SetInstance sets Instance field to given value.
 
 
 ### GetInstances

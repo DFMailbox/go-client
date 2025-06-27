@@ -32,6 +32,7 @@ docs/InvalidChallengeError.md
 docs/InvalidRequestParameterError.md
 docs/LookupInstanceAddress200Response.md
 docs/LookupInstanceAddress200ResponseOneOf.md
+docs/LookupInstanceAddress200ResponseOneOf1.md
 docs/MailboxItem.md
 docs/MailboxQueryOperation.md
 docs/MailboxQueryOperationOneOf.md
@@ -46,6 +47,7 @@ docs/MailboxQueryResponseOneOf3.md
 docs/MarkKeyAsCompromised400Response.md
 docs/NoEffectUpdateError.md
 docs/NonComplianceError.md
+docs/NullableAddressKeyPair.md
 docs/Plot.md
 docs/PlotAPI.md
 docs/RefreshToken200Response.md
@@ -90,6 +92,7 @@ model_invalid_challenge_error.go
 model_invalid_request_parameter_error.go
 model_lookup_instance_address_200_response.go
 model_lookup_instance_address_200_response_one_of.go
+model_lookup_instance_address_200_response_one_of_1.go
 model_mailbox_item.go
 model_mailbox_query_operation.go
 model_mailbox_query_operation_one_of.go
@@ -104,6 +107,7 @@ model_mailbox_query_response_one_of_3.go
 model_mark_key_as_compromised_400_response.go
 model_no_effect_update_error.go
 model_non_compliance_error.go
+model_nullable_address_key_pair.go
 model_plot.go
 model_refresh_token_200_response.go
 model_refresh_token_400_response.go
