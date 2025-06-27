@@ -8,13 +8,13 @@ Name | Type | Description | Notes
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
 **Detail** | **string** |  | 
-**Errors** | **interface{}** |  | 
+**Errors** | Pointer to **interface{}** |  | [optional] 
 
 ## Methods
 
 ### NewInvalidRequestParameterError
 
-`func NewInvalidRequestParameterError(type_ interface{}, title interface{}, status int32, detail string, errors interface{}, ) *InvalidRequestParameterError`
+`func NewInvalidRequestParameterError(type_ interface{}, title interface{}, status int32, detail string, ) *InvalidRequestParameterError`
 
 NewInvalidRequestParameterError instantiates a new InvalidRequestParameterError object
 This constructor will assign default values to properties that have it defined,
@@ -148,6 +148,11 @@ and a boolean to check if the value has been set.
 
 SetErrors sets Errors field to given value.
 
+### HasErrors
+
+`func (o *InvalidRequestParameterError) HasErrors() bool`
+
+HasErrors returns a boolean if a field has been set.
 
 ### SetErrorsNil
 

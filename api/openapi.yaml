@@ -6,7 +6,7 @@ info:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: DFMailbox API
-  version: 0.6.0
+  version: 0.6.1
 externalDocs:
   description: External docs can be found here
   url: https://dfmailbox.dev/
@@ -950,7 +950,6 @@ components:
         errors: {}
       required:
       - detail
-      - errors
       - status
       - title
       - type
@@ -1239,7 +1238,7 @@ components:
           type: string
       required:
       - api_key
-    lookupInstanceAddress_200_response:
+    lookupInstanceAddress_200_response_oneOf:
       example:
         address: api.dfmailbox.dev
       properties:
@@ -1249,6 +1248,15 @@ components:
           type: string
       required:
       - address
+    lookupInstanceAddress_200_response_oneOf_1:
+      properties:
+        addresses: {}
+      required:
+      - addresses
+    lookupInstanceAddress_200_response:
+      oneOf:
+      - $ref: '#/components/schemas/lookupInstanceAddress_200_response_oneOf'
+      - $ref: '#/components/schemas/lookupInstanceAddress_200_response_oneOf_1'
     introduceInstance_request:
       properties:
         public_key:

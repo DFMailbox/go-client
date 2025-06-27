@@ -30,6 +30,8 @@ docs/IntroduceInstanceRequest.md
 docs/InvalidChallengeError.md
 docs/InvalidRequestParameterError.md
 docs/LookupInstanceAddress200Response.md
+docs/LookupInstanceAddress200ResponseOneOf.md
+docs/LookupInstanceAddress200ResponseOneOf1.md
 docs/MailboxItem.md
 docs/MailboxQueryOperation.md
 docs/MailboxQueryOperationOneOf.md
@@ -86,6 +88,8 @@ model_introduce_instance_request.go
 model_invalid_challenge_error.go
 model_invalid_request_parameter_error.go
 model_lookup_instance_address_200_response.go
+model_lookup_instance_address_200_response_one_of.go
+model_lookup_instance_address_200_response_one_of_1.go
 model_mailbox_item.go
 model_mailbox_query_operation.go
 model_mailbox_query_operation_one_of.go
