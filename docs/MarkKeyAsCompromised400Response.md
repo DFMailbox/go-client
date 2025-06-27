@@ -8,13 +8,13 @@ Name | Type | Description | Notes
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
 **OffendingChallenge** | **string** | A UUID (universally unique identifier) | 
-**Challenge** | **string** | Base64 representation of the challenge | 
+**ChallengeBytes** | Pointer to **string** | Base64 representation of the challenge ((ascii address bytes) + (uuid bytes)) | [optional] 
 
 ## Methods
 
 ### NewMarkKeyAsCompromised400Response
 
-`func NewMarkKeyAsCompromised400Response(type_ interface{}, title interface{}, status int32, offendingChallenge string, challenge string, ) *MarkKeyAsCompromised400Response`
+`func NewMarkKeyAsCompromised400Response(type_ interface{}, title interface{}, status int32, offendingChallenge string, ) *MarkKeyAsCompromised400Response`
 
 NewMarkKeyAsCompromised400Response instantiates a new MarkKeyAsCompromised400Response object
 This constructor will assign default values to properties that have it defined,
@@ -129,25 +129,30 @@ and a boolean to check if the value has been set.
 SetOffendingChallenge sets OffendingChallenge field to given value.
 
 
-### GetChallenge
+### GetChallengeBytes
 
-`func (o *MarkKeyAsCompromised400Response) GetChallenge() string`
+`func (o *MarkKeyAsCompromised400Response) GetChallengeBytes() string`
 
-GetChallenge returns the Challenge field if non-nil, zero value otherwise.
+GetChallengeBytes returns the ChallengeBytes field if non-nil, zero value otherwise.
 
-### GetChallengeOk
+### GetChallengeBytesOk
 
-`func (o *MarkKeyAsCompromised400Response) GetChallengeOk() (*string, bool)`
+`func (o *MarkKeyAsCompromised400Response) GetChallengeBytesOk() (*string, bool)`
 
-GetChallengeOk returns a tuple with the Challenge field if it's non-nil, zero value otherwise
+GetChallengeBytesOk returns a tuple with the ChallengeBytes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetChallenge
+### SetChallengeBytes
 
-`func (o *MarkKeyAsCompromised400Response) SetChallenge(v string)`
+`func (o *MarkKeyAsCompromised400Response) SetChallengeBytes(v string)`
 
-SetChallenge sets Challenge field to given value.
+SetChallengeBytes sets ChallengeBytes field to given value.
 
+### HasChallengeBytes
+
+`func (o *MarkKeyAsCompromised400Response) HasChallengeBytes() bool`
+
+HasChallengeBytes returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

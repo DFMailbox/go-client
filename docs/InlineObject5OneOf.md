@@ -8,12 +8,14 @@ Name | Type | Description | Notes
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
 **Detail** | **string** |  | 
+**ExpectedAddress** | **string** | An address pointing to another DFMailbox instance | 
+**ActualAddress** | **string** | An address pointing to another DFMailbox instance | 
 
 ## Methods
 
 ### NewInlineObject5OneOf
 
-`func NewInlineObject5OneOf(type_ interface{}, title interface{}, status int32, detail string, ) *InlineObject5OneOf`
+`func NewInlineObject5OneOf(type_ interface{}, title interface{}, status int32, detail string, expectedAddress string, actualAddress string, ) *InlineObject5OneOf`
 
 NewInlineObject5OneOf instantiates a new InlineObject5OneOf object
 This constructor will assign default values to properties that have it defined,
@@ -126,6 +128,46 @@ and a boolean to check if the value has been set.
 `func (o *InlineObject5OneOf) SetDetail(v string)`
 
 SetDetail sets Detail field to given value.
+
+
+### GetExpectedAddress
+
+`func (o *InlineObject5OneOf) GetExpectedAddress() string`
+
+GetExpectedAddress returns the ExpectedAddress field if non-nil, zero value otherwise.
+
+### GetExpectedAddressOk
+
+`func (o *InlineObject5OneOf) GetExpectedAddressOk() (*string, bool)`
+
+GetExpectedAddressOk returns a tuple with the ExpectedAddress field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExpectedAddress
+
+`func (o *InlineObject5OneOf) SetExpectedAddress(v string)`
+
+SetExpectedAddress sets ExpectedAddress field to given value.
+
+
+### GetActualAddress
+
+`func (o *InlineObject5OneOf) GetActualAddress() string`
+
+GetActualAddress returns the ActualAddress field if non-nil, zero value otherwise.
+
+### GetActualAddressOk
+
+`func (o *InlineObject5OneOf) GetActualAddressOk() (*string, bool)`
+
+GetActualAddressOk returns a tuple with the ActualAddress field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetActualAddress
+
+`func (o *InlineObject5OneOf) SetActualAddress(v string)`
+
+SetActualAddress sets ActualAddress field to given value.
 
 
 

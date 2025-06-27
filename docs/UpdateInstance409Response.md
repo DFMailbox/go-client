@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Type** | **interface{}** |  | 
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
-**Details** | **string** |  | 
+**Detail** | **string** |  | 
 **PlotId** | **int32** | An id assigned by DiamondFire to identify a plot, this ID can be used in /plot &lt;plot_id&gt; | 
 **PublicKey** | **string** | A base64 URL encoded ed25519 public key | 
 **InstanceKey** | **string** | A base64 URL encoded ed25519 public key | 
@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewUpdateInstance409Response
 
-`func NewUpdateInstance409Response(type_ interface{}, title interface{}, status int32, details string, plotId int32, publicKey string, instanceKey string, ) *UpdateInstance409Response`
+`func NewUpdateInstance409Response(type_ interface{}, title interface{}, status int32, detail string, plotId int32, publicKey string, instanceKey string, ) *UpdateInstance409Response`
 
 NewUpdateInstance409Response instantiates a new UpdateInstance409Response object
 This constructor will assign default values to properties that have it defined,
@@ -111,24 +111,24 @@ and a boolean to check if the value has been set.
 SetStatus sets Status field to given value.
 
 
-### GetDetails
+### GetDetail
 
-`func (o *UpdateInstance409Response) GetDetails() string`
+`func (o *UpdateInstance409Response) GetDetail() string`
 
-GetDetails returns the Details field if non-nil, zero value otherwise.
+GetDetail returns the Detail field if non-nil, zero value otherwise.
 
-### GetDetailsOk
+### GetDetailOk
 
-`func (o *UpdateInstance409Response) GetDetailsOk() (*string, bool)`
+`func (o *UpdateInstance409Response) GetDetailOk() (*string, bool)`
 
-GetDetailsOk returns a tuple with the Details field if it's non-nil, zero value otherwise
+GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDetails
+### SetDetail
 
-`func (o *UpdateInstance409Response) SetDetails(v string)`
+`func (o *UpdateInstance409Response) SetDetail(v string)`
 
-SetDetails sets Details field to given value.
+SetDetail sets Detail field to given value.
 
 
 ### GetPlotId

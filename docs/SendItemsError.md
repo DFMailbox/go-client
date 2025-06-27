@@ -7,14 +7,19 @@ Name | Type | Description | Notes
 **Type** | **interface{}** |  | 
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
-**Details** | **string** |  | 
-**PlotId** | **int32** | An id assigned by DiamondFire to identify a plot, this ID can be used in /plot &lt;plot_id&gt; | 
+**Detail** | **string** |  | 
+**InstanceKey** | **string** | A base64 URL encoded ed25519 public key | 
+**ChallengeBytes** | Pointer to **string** | Base64 representation of the challenge ((ascii address bytes) + (uuid bytes)) | [optional] 
+**Sender** | **int32** | An id assigned by DiamondFire to identify a plot, this ID can be used in /plot &lt;plot_id&gt; | 
+**ActualKey** | **string** | A base64 URL encoded ed25519 public key | 
+**ExpectedKey** | **string** | A base64 URL encoded ed25519 public key | 
+**Receiver** | **int32** | An id assigned by DiamondFire to identify a plot, this ID can be used in /plot &lt;plot_id&gt; | 
 
 ## Methods
 
 ### NewSendItemsError
 
-`func NewSendItemsError(type_ interface{}, title interface{}, status int32, details string, plotId int32, ) *SendItemsError`
+`func NewSendItemsError(type_ interface{}, title interface{}, status int32, detail string, instanceKey string, sender int32, actualKey string, expectedKey string, receiver int32, ) *SendItemsError`
 
 NewSendItemsError instantiates a new SendItemsError object
 This constructor will assign default values to properties that have it defined,
@@ -109,44 +114,149 @@ and a boolean to check if the value has been set.
 SetStatus sets Status field to given value.
 
 
-### GetDetails
+### GetDetail
 
-`func (o *SendItemsError) GetDetails() string`
+`func (o *SendItemsError) GetDetail() string`
 
-GetDetails returns the Details field if non-nil, zero value otherwise.
+GetDetail returns the Detail field if non-nil, zero value otherwise.
 
-### GetDetailsOk
+### GetDetailOk
 
-`func (o *SendItemsError) GetDetailsOk() (*string, bool)`
+`func (o *SendItemsError) GetDetailOk() (*string, bool)`
 
-GetDetailsOk returns a tuple with the Details field if it's non-nil, zero value otherwise
+GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDetails
+### SetDetail
 
-`func (o *SendItemsError) SetDetails(v string)`
+`func (o *SendItemsError) SetDetail(v string)`
 
-SetDetails sets Details field to given value.
+SetDetail sets Detail field to given value.
 
 
-### GetPlotId
+### GetInstanceKey
 
-`func (o *SendItemsError) GetPlotId() int32`
+`func (o *SendItemsError) GetInstanceKey() string`
 
-GetPlotId returns the PlotId field if non-nil, zero value otherwise.
+GetInstanceKey returns the InstanceKey field if non-nil, zero value otherwise.
 
-### GetPlotIdOk
+### GetInstanceKeyOk
 
-`func (o *SendItemsError) GetPlotIdOk() (*int32, bool)`
+`func (o *SendItemsError) GetInstanceKeyOk() (*string, bool)`
 
-GetPlotIdOk returns a tuple with the PlotId field if it's non-nil, zero value otherwise
+GetInstanceKeyOk returns a tuple with the InstanceKey field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetPlotId
+### SetInstanceKey
 
-`func (o *SendItemsError) SetPlotId(v int32)`
+`func (o *SendItemsError) SetInstanceKey(v string)`
 
-SetPlotId sets PlotId field to given value.
+SetInstanceKey sets InstanceKey field to given value.
+
+
+### GetChallengeBytes
+
+`func (o *SendItemsError) GetChallengeBytes() string`
+
+GetChallengeBytes returns the ChallengeBytes field if non-nil, zero value otherwise.
+
+### GetChallengeBytesOk
+
+`func (o *SendItemsError) GetChallengeBytesOk() (*string, bool)`
+
+GetChallengeBytesOk returns a tuple with the ChallengeBytes field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetChallengeBytes
+
+`func (o *SendItemsError) SetChallengeBytes(v string)`
+
+SetChallengeBytes sets ChallengeBytes field to given value.
+
+### HasChallengeBytes
+
+`func (o *SendItemsError) HasChallengeBytes() bool`
+
+HasChallengeBytes returns a boolean if a field has been set.
+
+### GetSender
+
+`func (o *SendItemsError) GetSender() int32`
+
+GetSender returns the Sender field if non-nil, zero value otherwise.
+
+### GetSenderOk
+
+`func (o *SendItemsError) GetSenderOk() (*int32, bool)`
+
+GetSenderOk returns a tuple with the Sender field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSender
+
+`func (o *SendItemsError) SetSender(v int32)`
+
+SetSender sets Sender field to given value.
+
+
+### GetActualKey
+
+`func (o *SendItemsError) GetActualKey() string`
+
+GetActualKey returns the ActualKey field if non-nil, zero value otherwise.
+
+### GetActualKeyOk
+
+`func (o *SendItemsError) GetActualKeyOk() (*string, bool)`
+
+GetActualKeyOk returns a tuple with the ActualKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetActualKey
+
+`func (o *SendItemsError) SetActualKey(v string)`
+
+SetActualKey sets ActualKey field to given value.
+
+
+### GetExpectedKey
+
+`func (o *SendItemsError) GetExpectedKey() string`
+
+GetExpectedKey returns the ExpectedKey field if non-nil, zero value otherwise.
+
+### GetExpectedKeyOk
+
+`func (o *SendItemsError) GetExpectedKeyOk() (*string, bool)`
+
+GetExpectedKeyOk returns a tuple with the ExpectedKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExpectedKey
+
+`func (o *SendItemsError) SetExpectedKey(v string)`
+
+SetExpectedKey sets ExpectedKey field to given value.
+
+
+### GetReceiver
+
+`func (o *SendItemsError) GetReceiver() int32`
+
+GetReceiver returns the Receiver field if non-nil, zero value otherwise.
+
+### GetReceiverOk
+
+`func (o *SendItemsError) GetReceiverOk() (*int32, bool)`
+
+GetReceiverOk returns a tuple with the Receiver field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReceiver
+
+`func (o *SendItemsError) SetReceiver(v int32)`
+
+SetReceiver sets Receiver field to given value.
 
 
 

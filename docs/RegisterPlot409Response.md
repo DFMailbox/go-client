@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Type** | **interface{}** |  | 
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
-**Details** | **string** |  | 
+**Detail** | **string** |  | 
 **PublicKey** | **string** | A base64 URL encoded ed25519 public key | 
 **InstanceKey** | **string** | A base64 URL encoded ed25519 public key | 
 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewRegisterPlot409Response
 
-`func NewRegisterPlot409Response(type_ interface{}, title interface{}, status int32, details string, publicKey string, instanceKey string, ) *RegisterPlot409Response`
+`func NewRegisterPlot409Response(type_ interface{}, title interface{}, status int32, detail string, publicKey string, instanceKey string, ) *RegisterPlot409Response`
 
 NewRegisterPlot409Response instantiates a new RegisterPlot409Response object
 This constructor will assign default values to properties that have it defined,
@@ -110,24 +110,24 @@ and a boolean to check if the value has been set.
 SetStatus sets Status field to given value.
 
 
-### GetDetails
+### GetDetail
 
-`func (o *RegisterPlot409Response) GetDetails() string`
+`func (o *RegisterPlot409Response) GetDetail() string`
 
-GetDetails returns the Details field if non-nil, zero value otherwise.
+GetDetail returns the Detail field if non-nil, zero value otherwise.
 
-### GetDetailsOk
+### GetDetailOk
 
-`func (o *RegisterPlot409Response) GetDetailsOk() (*string, bool)`
+`func (o *RegisterPlot409Response) GetDetailOk() (*string, bool)`
 
-GetDetailsOk returns a tuple with the Details field if it's non-nil, zero value otherwise
+GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDetails
+### SetDetail
 
-`func (o *RegisterPlot409Response) SetDetails(v string)`
+`func (o *RegisterPlot409Response) SetDetail(v string)`
 
-SetDetails sets Details field to given value.
+SetDetail sets Detail field to given value.
 
 
 ### GetPublicKey

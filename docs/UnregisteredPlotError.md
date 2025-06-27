@@ -7,14 +7,14 @@ Name | Type | Description | Notes
 **Type** | **interface{}** |  | 
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
-**Details** | **string** |  | 
+**Detail** | **string** |  | 
 **PlotId** | **int32** | An id assigned by DiamondFire to identify a plot, this ID can be used in /plot &lt;plot_id&gt; | 
 
 ## Methods
 
 ### NewUnregisteredPlotError
 
-`func NewUnregisteredPlotError(type_ interface{}, title interface{}, status int32, details string, plotId int32, ) *UnregisteredPlotError`
+`func NewUnregisteredPlotError(type_ interface{}, title interface{}, status int32, detail string, plotId int32, ) *UnregisteredPlotError`
 
 NewUnregisteredPlotError instantiates a new UnregisteredPlotError object
 This constructor will assign default values to properties that have it defined,
@@ -109,24 +109,24 @@ and a boolean to check if the value has been set.
 SetStatus sets Status field to given value.
 
 
-### GetDetails
+### GetDetail
 
-`func (o *UnregisteredPlotError) GetDetails() string`
+`func (o *UnregisteredPlotError) GetDetail() string`
 
-GetDetails returns the Details field if non-nil, zero value otherwise.
+GetDetail returns the Detail field if non-nil, zero value otherwise.
 
-### GetDetailsOk
+### GetDetailOk
 
-`func (o *UnregisteredPlotError) GetDetailsOk() (*string, bool)`
+`func (o *UnregisteredPlotError) GetDetailOk() (*string, bool)`
 
-GetDetailsOk returns a tuple with the Details field if it's non-nil, zero value otherwise
+GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDetails
+### SetDetail
 
-`func (o *UnregisteredPlotError) SetDetails(v string)`
+`func (o *UnregisteredPlotError) SetDetail(v string)`
 
-SetDetails sets Details field to given value.
+SetDetail sets Detail field to given value.
 
 
 ### GetPlotId

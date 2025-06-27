@@ -7,14 +7,14 @@ Name | Type | Description | Notes
 **Type** | **interface{}** |  | 
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
-**Details** | **string** |  | 
+**Detail** | **string** |  | 
 **PublicKey** | **string** | A base64 URL encoded ed25519 public key | 
 
 ## Methods
 
 ### NewUnknownInstanceError
 
-`func NewUnknownInstanceError(type_ interface{}, title interface{}, status int32, details string, publicKey string, ) *UnknownInstanceError`
+`func NewUnknownInstanceError(type_ interface{}, title interface{}, status int32, detail string, publicKey string, ) *UnknownInstanceError`
 
 NewUnknownInstanceError instantiates a new UnknownInstanceError object
 This constructor will assign default values to properties that have it defined,
@@ -109,24 +109,24 @@ and a boolean to check if the value has been set.
 SetStatus sets Status field to given value.
 
 
-### GetDetails
+### GetDetail
 
-`func (o *UnknownInstanceError) GetDetails() string`
+`func (o *UnknownInstanceError) GetDetail() string`
 
-GetDetails returns the Details field if non-nil, zero value otherwise.
+GetDetail returns the Detail field if non-nil, zero value otherwise.
 
-### GetDetailsOk
+### GetDetailOk
 
-`func (o *UnknownInstanceError) GetDetailsOk() (*string, bool)`
+`func (o *UnknownInstanceError) GetDetailOk() (*string, bool)`
 
-GetDetailsOk returns a tuple with the Details field if it's non-nil, zero value otherwise
+GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDetails
+### SetDetail
 
-`func (o *UnknownInstanceError) SetDetails(v string)`
+`func (o *UnknownInstanceError) SetDetail(v string)`
 
-SetDetails sets Details field to given value.
+SetDetail sets Detail field to given value.
 
 
 ### GetPublicKey

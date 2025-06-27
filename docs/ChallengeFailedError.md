@@ -7,13 +7,13 @@ Name | Type | Description | Notes
 **Type** | **interface{}** |  | 
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
-**Challenge** | **string** | Base64 representation of the challenge | 
+**ChallengeBytes** | Pointer to **string** | Base64 representation of the challenge ((ascii address bytes) + (uuid bytes)) | [optional] 
 
 ## Methods
 
 ### NewChallengeFailedError
 
-`func NewChallengeFailedError(type_ interface{}, title interface{}, status int32, challenge string, ) *ChallengeFailedError`
+`func NewChallengeFailedError(type_ interface{}, title interface{}, status int32, ) *ChallengeFailedError`
 
 NewChallengeFailedError instantiates a new ChallengeFailedError object
 This constructor will assign default values to properties that have it defined,
@@ -108,25 +108,30 @@ and a boolean to check if the value has been set.
 SetStatus sets Status field to given value.
 
 
-### GetChallenge
+### GetChallengeBytes
 
-`func (o *ChallengeFailedError) GetChallenge() string`
+`func (o *ChallengeFailedError) GetChallengeBytes() string`
 
-GetChallenge returns the Challenge field if non-nil, zero value otherwise.
+GetChallengeBytes returns the ChallengeBytes field if non-nil, zero value otherwise.
 
-### GetChallengeOk
+### GetChallengeBytesOk
 
-`func (o *ChallengeFailedError) GetChallengeOk() (*string, bool)`
+`func (o *ChallengeFailedError) GetChallengeBytesOk() (*string, bool)`
 
-GetChallengeOk returns a tuple with the Challenge field if it's non-nil, zero value otherwise
+GetChallengeBytesOk returns a tuple with the ChallengeBytes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetChallenge
+### SetChallengeBytes
 
-`func (o *ChallengeFailedError) SetChallenge(v string)`
+`func (o *ChallengeFailedError) SetChallengeBytes(v string)`
 
-SetChallenge sets Challenge field to given value.
+SetChallengeBytes sets ChallengeBytes field to given value.
 
+### HasChallengeBytes
+
+`func (o *ChallengeFailedError) HasChallengeBytes() bool`
+
+HasChallengeBytes returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

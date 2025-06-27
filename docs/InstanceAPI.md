@@ -94,7 +94,7 @@ import (
 )
 
 func main() {
-	publicKey := "publicKey_example" // string | The server key to check the address of
+	publicKey := "publicKey_example" // string | The server key to check the address of (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

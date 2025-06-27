@@ -7,13 +7,15 @@ Name | Type | Description | Notes
 **Type** | **interface{}** |  | 
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
-**ExpectedAddress** | **string** | An address pointing to another DFMailbox instance | 
+**Detail** | **string** |  | 
+**ExpectedPublicKey** | **string** | A base64 URL encoded ed25519 public key | 
+**ActualPublicKey** | **string** | A base64 URL encoded ed25519 public key | 
 
 ## Methods
 
 ### NewInlineObject5OneOf1
 
-`func NewInlineObject5OneOf1(type_ interface{}, title interface{}, status int32, expectedAddress string, ) *InlineObject5OneOf1`
+`func NewInlineObject5OneOf1(type_ interface{}, title interface{}, status int32, detail string, expectedPublicKey string, actualPublicKey string, ) *InlineObject5OneOf1`
 
 NewInlineObject5OneOf1 instantiates a new InlineObject5OneOf1 object
 This constructor will assign default values to properties that have it defined,
@@ -108,24 +110,64 @@ and a boolean to check if the value has been set.
 SetStatus sets Status field to given value.
 
 
-### GetExpectedAddress
+### GetDetail
 
-`func (o *InlineObject5OneOf1) GetExpectedAddress() string`
+`func (o *InlineObject5OneOf1) GetDetail() string`
 
-GetExpectedAddress returns the ExpectedAddress field if non-nil, zero value otherwise.
+GetDetail returns the Detail field if non-nil, zero value otherwise.
 
-### GetExpectedAddressOk
+### GetDetailOk
 
-`func (o *InlineObject5OneOf1) GetExpectedAddressOk() (*string, bool)`
+`func (o *InlineObject5OneOf1) GetDetailOk() (*string, bool)`
 
-GetExpectedAddressOk returns a tuple with the ExpectedAddress field if it's non-nil, zero value otherwise
+GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetExpectedAddress
+### SetDetail
 
-`func (o *InlineObject5OneOf1) SetExpectedAddress(v string)`
+`func (o *InlineObject5OneOf1) SetDetail(v string)`
 
-SetExpectedAddress sets ExpectedAddress field to given value.
+SetDetail sets Detail field to given value.
+
+
+### GetExpectedPublicKey
+
+`func (o *InlineObject5OneOf1) GetExpectedPublicKey() string`
+
+GetExpectedPublicKey returns the ExpectedPublicKey field if non-nil, zero value otherwise.
+
+### GetExpectedPublicKeyOk
+
+`func (o *InlineObject5OneOf1) GetExpectedPublicKeyOk() (*string, bool)`
+
+GetExpectedPublicKeyOk returns a tuple with the ExpectedPublicKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExpectedPublicKey
+
+`func (o *InlineObject5OneOf1) SetExpectedPublicKey(v string)`
+
+SetExpectedPublicKey sets ExpectedPublicKey field to given value.
+
+
+### GetActualPublicKey
+
+`func (o *InlineObject5OneOf1) GetActualPublicKey() string`
+
+GetActualPublicKey returns the ActualPublicKey field if non-nil, zero value otherwise.
+
+### GetActualPublicKeyOk
+
+`func (o *InlineObject5OneOf1) GetActualPublicKeyOk() (*string, bool)`
+
+GetActualPublicKeyOk returns a tuple with the ActualPublicKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetActualPublicKey
+
+`func (o *InlineObject5OneOf1) SetActualPublicKey(v string)`
+
+SetActualPublicKey sets ActualPublicKey field to given value.
 
 
 

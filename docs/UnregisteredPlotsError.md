@@ -7,14 +7,14 @@ Name | Type | Description | Notes
 **Type** | **interface{}** |  | 
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
-**Details** | **string** |  | 
+**Detail** | **string** |  | 
 **PlotIds** | **interface{}** |  | 
 
 ## Methods
 
 ### NewUnregisteredPlotsError
 
-`func NewUnregisteredPlotsError(type_ interface{}, title interface{}, status int32, details string, plotIds interface{}, ) *UnregisteredPlotsError`
+`func NewUnregisteredPlotsError(type_ interface{}, title interface{}, status int32, detail string, plotIds interface{}, ) *UnregisteredPlotsError`
 
 NewUnregisteredPlotsError instantiates a new UnregisteredPlotsError object
 This constructor will assign default values to properties that have it defined,
@@ -109,24 +109,24 @@ and a boolean to check if the value has been set.
 SetStatus sets Status field to given value.
 
 
-### GetDetails
+### GetDetail
 
-`func (o *UnregisteredPlotsError) GetDetails() string`
+`func (o *UnregisteredPlotsError) GetDetail() string`
 
-GetDetails returns the Details field if non-nil, zero value otherwise.
+GetDetail returns the Detail field if non-nil, zero value otherwise.
 
-### GetDetailsOk
+### GetDetailOk
 
-`func (o *UnregisteredPlotsError) GetDetailsOk() (*string, bool)`
+`func (o *UnregisteredPlotsError) GetDetailOk() (*string, bool)`
 
-GetDetailsOk returns a tuple with the Details field if it's non-nil, zero value otherwise
+GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDetails
+### SetDetail
 
-`func (o *UnregisteredPlotsError) SetDetails(v string)`
+`func (o *UnregisteredPlotsError) SetDetail(v string)`
 
-SetDetails sets Details field to given value.
+SetDetail sets Detail field to given value.
 
 
 ### GetPlotIds

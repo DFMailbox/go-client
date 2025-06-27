@@ -8,15 +8,15 @@ Name | Type | Description | Notes
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
 **OffendingChallenge** | **string** | A UUID (universally unique identifier) | 
-**Challenge** | **string** | Base64 representation of the challenge | 
-**Details** | **string** |  | 
+**ChallengeBytes** | Pointer to **string** | Base64 representation of the challenge ((ascii address bytes) + (uuid bytes)) | [optional] 
+**Detail** | **string** |  | 
 **PublicKey** | **string** | A base64 URL encoded ed25519 public key | 
 
 ## Methods
 
 ### NewRefreshToken400Response
 
-`func NewRefreshToken400Response(type_ interface{}, title interface{}, status int32, offendingChallenge string, challenge string, details string, publicKey string, ) *RefreshToken400Response`
+`func NewRefreshToken400Response(type_ interface{}, title interface{}, status int32, offendingChallenge string, detail string, publicKey string, ) *RefreshToken400Response`
 
 NewRefreshToken400Response instantiates a new RefreshToken400Response object
 This constructor will assign default values to properties that have it defined,
@@ -131,44 +131,49 @@ and a boolean to check if the value has been set.
 SetOffendingChallenge sets OffendingChallenge field to given value.
 
 
-### GetChallenge
+### GetChallengeBytes
 
-`func (o *RefreshToken400Response) GetChallenge() string`
+`func (o *RefreshToken400Response) GetChallengeBytes() string`
 
-GetChallenge returns the Challenge field if non-nil, zero value otherwise.
+GetChallengeBytes returns the ChallengeBytes field if non-nil, zero value otherwise.
 
-### GetChallengeOk
+### GetChallengeBytesOk
 
-`func (o *RefreshToken400Response) GetChallengeOk() (*string, bool)`
+`func (o *RefreshToken400Response) GetChallengeBytesOk() (*string, bool)`
 
-GetChallengeOk returns a tuple with the Challenge field if it's non-nil, zero value otherwise
+GetChallengeBytesOk returns a tuple with the ChallengeBytes field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetChallenge
+### SetChallengeBytes
 
-`func (o *RefreshToken400Response) SetChallenge(v string)`
+`func (o *RefreshToken400Response) SetChallengeBytes(v string)`
 
-SetChallenge sets Challenge field to given value.
+SetChallengeBytes sets ChallengeBytes field to given value.
 
+### HasChallengeBytes
 
-### GetDetails
+`func (o *RefreshToken400Response) HasChallengeBytes() bool`
 
-`func (o *RefreshToken400Response) GetDetails() string`
+HasChallengeBytes returns a boolean if a field has been set.
 
-GetDetails returns the Details field if non-nil, zero value otherwise.
+### GetDetail
 
-### GetDetailsOk
+`func (o *RefreshToken400Response) GetDetail() string`
 
-`func (o *RefreshToken400Response) GetDetailsOk() (*string, bool)`
+GetDetail returns the Detail field if non-nil, zero value otherwise.
 
-GetDetailsOk returns a tuple with the Details field if it's non-nil, zero value otherwise
+### GetDetailOk
+
+`func (o *RefreshToken400Response) GetDetailOk() (*string, bool)`
+
+GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDetails
+### SetDetail
 
-`func (o *RefreshToken400Response) SetDetails(v string)`
+`func (o *RefreshToken400Response) SetDetail(v string)`
 
-SetDetails sets Details field to given value.
+SetDetail sets Detail field to given value.
 
 
 ### GetPublicKey

@@ -1,0 +1,134 @@
+# NoEffectUpdateError
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**Type** | **interface{}** |  | 
+**Title** | **interface{}** |  | 
+**Detail** | **string** |  | 
+**Status** | **int32** | HTTP status code | 
+
+## Methods
+
+### NewNoEffectUpdateError
+
+`func NewNoEffectUpdateError(type_ interface{}, title interface{}, detail string, status int32, ) *NoEffectUpdateError`
+
+NewNoEffectUpdateError instantiates a new NoEffectUpdateError object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewNoEffectUpdateErrorWithDefaults
+
+`func NewNoEffectUpdateErrorWithDefaults() *NoEffectUpdateError`
+
+NewNoEffectUpdateErrorWithDefaults instantiates a new NoEffectUpdateError object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetType
+
+`func (o *NoEffectUpdateError) GetType() interface{}`
+
+GetType returns the Type field if non-nil, zero value otherwise.
+
+### GetTypeOk
+
+`func (o *NoEffectUpdateError) GetTypeOk() (*interface{}, bool)`
+
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetType
+
+`func (o *NoEffectUpdateError) SetType(v interface{})`
+
+SetType sets Type field to given value.
+
+
+### SetTypeNil
+
+`func (o *NoEffectUpdateError) SetTypeNil(b bool)`
+
+ SetTypeNil sets the value for Type to be an explicit nil
+
+### UnsetType
+`func (o *NoEffectUpdateError) UnsetType()`
+
+UnsetType ensures that no value is present for Type, not even an explicit nil
+### GetTitle
+
+`func (o *NoEffectUpdateError) GetTitle() interface{}`
+
+GetTitle returns the Title field if non-nil, zero value otherwise.
+
+### GetTitleOk
+
+`func (o *NoEffectUpdateError) GetTitleOk() (*interface{}, bool)`
+
+GetTitleOk returns a tuple with the Title field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTitle
+
+`func (o *NoEffectUpdateError) SetTitle(v interface{})`
+
+SetTitle sets Title field to given value.
+
+
+### SetTitleNil
+
+`func (o *NoEffectUpdateError) SetTitleNil(b bool)`
+
+ SetTitleNil sets the value for Title to be an explicit nil
+
+### UnsetTitle
+`func (o *NoEffectUpdateError) UnsetTitle()`
+
+UnsetTitle ensures that no value is present for Title, not even an explicit nil
+### GetDetail
+
+`func (o *NoEffectUpdateError) GetDetail() string`
+
+GetDetail returns the Detail field if non-nil, zero value otherwise.
+
+### GetDetailOk
+
+`func (o *NoEffectUpdateError) GetDetailOk() (*string, bool)`
+
+GetDetailOk returns a tuple with the Detail field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDetail
+
+`func (o *NoEffectUpdateError) SetDetail(v string)`
+
+SetDetail sets Detail field to given value.
+
+
+### GetStatus
+
+`func (o *NoEffectUpdateError) GetStatus() int32`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *NoEffectUpdateError) GetStatusOk() (*int32, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *NoEffectUpdateError) SetStatus(v int32)`
+
+SetStatus sets Status field to given value.
+
+
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
