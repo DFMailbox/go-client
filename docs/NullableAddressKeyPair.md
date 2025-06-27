@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Address** | **string** | An address pointing to another DFMailbox instance | 
+**Address** | **NullableString** | An nullable address pointing to another DFMailbox instance. Null, in this case meaning the instance is compromised. | 
 **PublicKey** | **string** | A base64 URL encoded ed25519 public key | 
 
 ## Methods
 
 ### NewNullableAddressKeyPair
 
-`func NewNullableAddressKeyPair(address string, publicKey string, ) *NullableAddressKeyPair`
+`func NewNullableAddressKeyPair(address NullableString, publicKey string, ) *NullableAddressKeyPair`
 
 NewNullableAddressKeyPair instantiates a new NullableAddressKeyPair object
 This constructor will assign default values to properties that have it defined,
@@ -46,6 +46,16 @@ and a boolean to check if the value has been set.
 SetAddress sets Address field to given value.
 
 
+### SetAddressNil
+
+`func (o *NullableAddressKeyPair) SetAddressNil(b bool)`
+
+ SetAddressNil sets the value for Address to be an explicit nil
+
+### UnsetAddress
+`func (o *NullableAddressKeyPair) UnsetAddress()`
+
+UnsetAddress ensures that no value is present for Address, not even an explicit nil
 ### GetPublicKey
 
 `func (o *NullableAddressKeyPair) GetPublicKey() string`

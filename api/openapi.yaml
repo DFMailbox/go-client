@@ -6,7 +6,7 @@ info:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: DFMailbox API
-  version: 0.6.3
+  version: 0.6.4
 externalDocs:
   description: External docs can be found here
   url: https://dfmailbox.dev/
@@ -940,8 +940,10 @@ components:
       description: Addess and key
       properties:
         address:
-          description: An address pointing to another DFMailbox instance
+          description: "An nullable address pointing to another DFMailbox instance.\
+            \ Null, in this case meaning the instance is compromised."
           example: api.dfmailbox.dev
+          nullable: true
           type: string
         public_key:
           description: A base64 URL encoded ed25519 public key
@@ -954,8 +956,10 @@ components:
       description: Addess and key
       properties:
         address:
-          description: An address pointing to another DFMailbox instance
+          description: "An nullable address pointing to another DFMailbox instance.\
+            \ Null, in this case meaning the instance is compromised."
           example: api.dfmailbox.dev
+          nullable: true
           type: string
         public_key:
           description: A base64 URL encoded ed25519 public key
@@ -1175,6 +1179,12 @@ components:
     Address:
       description: An address pointing to another DFMailbox instance
       example: api.dfmailbox.dev
+      type: string
+    NullableAddress:
+      description: "An nullable address pointing to another DFMailbox instance. Null,\
+        \ in this case meaning the instance is compromised."
+      example: api.dfmailbox.dev
+      nullable: true
       type: string
     Uuid:
       description: A UUID (universally unique identifier)
