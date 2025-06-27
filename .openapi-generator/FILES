@@ -45,9 +45,9 @@ docs/MailboxQueryResponseOneOf1.md
 docs/MailboxQueryResponseOneOf2.md
 docs/MailboxQueryResponseOneOf3.md
 docs/MarkKeyAsCompromised400Response.md
+docs/MaybeAddressKeyPair.md
 docs/NoEffectUpdateError.md
 docs/NonComplianceError.md
-docs/NullableAddressKeyPair.md
 docs/Plot.md
 docs/PlotAPI.md
 docs/RefreshToken200Response.md
@@ -105,9 +105,9 @@ model_mailbox_query_response_one_of_1.go
 model_mailbox_query_response_one_of_2.go
 model_mailbox_query_response_one_of_3.go
 model_mark_key_as_compromised_400_response.go
+model_maybe_address_key_pair.go
 model_no_effect_update_error.go
 model_non_compliance_error.go
-model_nullable_address_key_pair.go
 model_plot.go
 model_refresh_token_200_response.go
 model_refresh_token_400_response.go
