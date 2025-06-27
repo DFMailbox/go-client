@@ -7,6 +7,7 @@ api_instance.go
 api_plot.go
 client.go
 configuration.go
+docs/AddressKeyPair.md
 docs/AlreadyExistsError.md
 docs/ChallengeFailedError.md
 docs/CreateApiKey200Response.md
@@ -31,7 +32,6 @@ docs/InvalidChallengeError.md
 docs/InvalidRequestParameterError.md
 docs/LookupInstanceAddress200Response.md
 docs/LookupInstanceAddress200ResponseOneOf.md
-docs/LookupInstanceAddress200ResponseOneOf1.md
 docs/MailboxItem.md
 docs/MailboxQueryOperation.md
 docs/MailboxQueryOperationOneOf.md
@@ -67,6 +67,7 @@ docs/VerifyIdentity200Response.md
 git_push.sh
 go.mod
 go.sum
+model_address_key_pair.go
 model_already_exists_error.go
 model_challenge_failed_error.go
 model_create_api_key_200_response.go
@@ -89,7 +90,6 @@ model_invalid_challenge_error.go
 model_invalid_request_parameter_error.go
 model_lookup_instance_address_200_response.go
 model_lookup_instance_address_200_response_one_of.go
-model_lookup_instance_address_200_response_one_of_1.go
 model_mailbox_item.go
 model_mailbox_query_operation.go
 model_mailbox_query_operation_one_of.go

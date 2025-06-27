@@ -6,7 +6,7 @@ info:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: DFMailbox API
-  version: 0.6.1
+  version: 0.6.2
 externalDocs:
   description: External docs can be found here
   url: https://dfmailbox.dev/
@@ -936,6 +936,20 @@ components:
       - $ref: '#/components/schemas/MailboxQueryResponse_oneOf_1'
       - $ref: '#/components/schemas/MailboxQueryResponse_oneOf_2'
       - $ref: '#/components/schemas/MailboxQueryResponse_oneOf_3'
+    AddressKeyPair:
+      description: Addess and key
+      properties:
+        address:
+          description: An address pointing to another DFMailbox instance
+          example: api.dfmailbox.dev
+          type: string
+        public_key:
+          description: A base64 URL encoded ed25519 public key
+          example: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
+          type: string
+      required:
+      - address
+      - public_key
     InvalidRequestParameterError:
       description: Invalid request parameter
       properties:
@@ -1239,24 +1253,17 @@ components:
       required:
       - api_key
     lookupInstanceAddress_200_response_oneOf:
+      properties:
+        instances: {}
+      required:
+      - instances
+    lookupInstanceAddress_200_response:
       example:
         address: api.dfmailbox.dev
-      properties:
-        address:
-          description: An address pointing to another DFMailbox instance
-          example: api.dfmailbox.dev
-          type: string
-      required:
-      - address
-    lookupInstanceAddress_200_response_oneOf_1:
-      properties:
-        addresses: {}
-      required:
-      - addresses
-    lookupInstanceAddress_200_response:
+        public_key: NyLVuL731FWGnQ4tD-RqWNcC4pFQ_eD0dDr2z0FHmxs
       oneOf:
+      - $ref: '#/components/schemas/AddressKeyPair'
       - $ref: '#/components/schemas/lookupInstanceAddress_200_response_oneOf'
-      - $ref: '#/components/schemas/lookupInstanceAddress_200_response_oneOf_1'
     introduceInstance_request:
       properties:
         public_key:
