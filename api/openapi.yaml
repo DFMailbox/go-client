@@ -6,7 +6,7 @@ info:
     name: Apache-2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: DFMailbox API
-  version: 0.6.5
+  version: 0.7.0
 externalDocs:
   description: External docs can be found here
   url: https://dfmailbox.dev/
@@ -36,18 +36,6 @@ paths:
       responses:
         "200":
           description: OK
-        "409":
-          content:
-            application/problem+json:
-              example:
-                type: /v0/problems/unregistered-plot
-                title: Target plot is not registered
-                status: 409
-                detail: The plot with id 51998 is not registered and can't be unregistered
-                plot_id: 51998
-              schema:
-                $ref: '#/components/schemas/UnregisteredPlotError'
-          description: Plot deletion error
         "401":
           $ref: '#/components/responses/Unauthorized'
         "403":
@@ -93,6 +81,21 @@ paths:
       responses:
         "201":
           description: OK
+        "400":
+          content:
+            application/problem+json:
+              example:
+                type: /v0/problems/invalid-request-parameter-format
+                title: Invalid request parameter format
+                status: 400
+                detail: The request parameter is not valid
+                errors:
+                - detail: The public key abc123haha is not a valid base64 URL encoded
+                    ed25519 public key
+                  parameter: instance
+              schema:
+                $ref: '#/components/schemas/InvalidRequestParameterError'
+          description: Input validation error
         "409":
           content:
             application/problem+json:
@@ -104,7 +107,7 @@ paths:
                   is not identified
                 public_key: 2Z-eAxSo7qGL8OGIzpi-DGcPAVR16xoo9gUpR6Ut9ww
               schema:
-                $ref: '#/components/schemas/registerPlot_409_response'
+                $ref: '#/components/schemas/updateInstance_409_response'
           description: Plot registration error
         "401":
           $ref: '#/components/responses/Unauthorized'
@@ -162,6 +165,14 @@ paths:
       parameters:
       - $ref: '#/components/parameters/MessageId'
       - $ref: '#/components/parameters/MessageLimit'
+      - description: "Should check mailbox, defaults to true"
+        explode: false
+        in: header
+        name: return
+        required: false
+        schema:
+          type: boolean
+        style: simple
       responses:
         "200":
           content:
@@ -203,7 +214,8 @@ paths:
       tags:
       - plot
     post:
-      description: Append a list of items to the back of the mailbox
+      description: Append a list of items to the back of the mailbox. Usually this
+        is used for debugging.
       operationId: sendMailToSelf
       requestBody:
         $ref: '#/components/requestBodies/SendItems'
@@ -558,6 +570,19 @@ paths:
           description: OK
         "400":
           $ref: '#/components/responses/InstanceIntroductionError'
+        "409":
+          content:
+            application/problem+json:
+              example:
+                type: /v0/problems/already-exists
+                title: The resource being created already exists
+                status: 409
+                detail: The resource with key NyLVuL731FWGnQ4tD-RqWNcC4pFQ_eD0dDr2z0FHmxs
+                  is already registered
+                public_key: NyLVuL731FWGnQ4tD-RqWNcC4pFQ_eD0dDr2z0FHmxs
+              schema:
+                $ref: '#/components/schemas/introduceInstance_409_response'
+          description: Conflict
       summary: Introduce an instance
       tags:
       - instance
@@ -755,12 +780,20 @@ components:
       content:
         application/json:
           example:
-          - id: str
-            val: Hello DFMailbox
-          - id: vec
-            x: 1
-            "y": 2
-            z: 3
+          - id: 10
+            time: 1649866772
+            plot_origin: 43780
+            val:
+              id: str
+              val: Hello DFMailbox
+          - id: 11
+            time: 1649866774
+            plot_origin: 43780
+            val:
+              id: vec
+              x: 1
+              "y": 2
+              z: 3
           schema: {}
       description: "Items to send. The first item goes in first, last item goes in\
         \ last."
@@ -1260,11 +1293,6 @@ components:
       - instance
     updateInstance_409_response:
       oneOf:
-      - $ref: '#/components/schemas/UnregisteredPlotError'
-      - $ref: '#/components/schemas/UnknownInstanceError'
-      - $ref: '#/components/schemas/InstanceKeyCompromisedError'
-    registerPlot_409_response:
-      oneOf:
       - $ref: '#/components/schemas/UnknownInstanceError'
       - $ref: '#/components/schemas/InstanceKeyCompromisedError'
     createApiKey_200_response:
@@ -1315,6 +1343,10 @@ components:
       exmaple:
         public_key: NyLVuL731FWGnQ4tD-RqWNcC4pFQ_eD0dDr2z0FHmxs
         address: api.dfmailbox.dev
+    introduceInstance_409_response:
+      oneOf:
+      - $ref: '#/components/schemas/AlreadyExistsError'
+      - $ref: '#/components/schemas/NoEffectUpdateError'
     verifyIdentity_200_response:
       example:
         public_key: 0nqH2kJLWxfqdH0QIsKJp84Ck9OhPWCHZ3uMmcoknSY
@@ -1646,7 +1678,7 @@ components:
     inline_object_2:
       example:
         type: /v0/problems/expected-role/any
-        title: Expected any registered role
+        title: Expected any registration
         status: 403
         expected:
         - host
@@ -1769,8 +1801,6 @@ components:
       oneOf:
       - $ref: '#/components/schemas/NonComplianceError'
       - $ref: '#/components/schemas/InstanceUnreachableError'
-      - $ref: '#/components/schemas/AlreadyExistsError'
-      - $ref: '#/components/schemas/NoEffectUpdateError'
       - $ref: '#/components/schemas/inline_object_5_oneOf'
       - $ref: '#/components/schemas/inline_object_5_oneOf_1'
   securitySchemes:

@@ -25,7 +25,7 @@ Method | HTTP request | Description
 
 ## CheckCleanMailbox
 
-> FetchMailboxResult CheckCleanMailbox(ctx).MsgId(msgId).Limit(limit).Execute()
+> FetchMailboxResult CheckCleanMailbox(ctx).MsgId(msgId).Limit(limit).Return_(return_).Execute()
 
 Check and cleanup mailbox
 
@@ -46,10 +46,11 @@ import (
 func main() {
 	msgId := int64(3) // int64 | The id to get messages after
 	limit := int64(50) // int64 | The max amount of messsages that can be returned (optional)
+	return_ := true // bool | Should check mailbox, defaults to true (optional)
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
-	resp, r, err := apiClient.PlotAPI.CheckCleanMailbox(context.Background()).MsgId(msgId).Limit(limit).Execute()
+	resp, r, err := apiClient.PlotAPI.CheckCleanMailbox(context.Background()).MsgId(msgId).Limit(limit).Return_(return_).Execute()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error when calling `PlotAPI.CheckCleanMailbox``: %v\n", err)
 		fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -72,6 +73,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **msgId** | **int64** | The id to get messages after | 
  **limit** | **int64** | The max amount of messsages that can be returned | 
+ **return_** | **bool** | Should check mailbox, defaults to true | 
 
 ### Return type
 
@@ -684,7 +686,7 @@ import (
 
 func main() {
 	plotId := int32(56) // int32 | An id assigned by DiamondFire to identify a plot, this ID can be used in /plot <plot_id>
-	body := interface{}([{id=str, val=Hello DFMailbox}, {id=vec, x=1, y=2, z=3}]) // interface{} | Items to send. The first item goes in first, last item goes in last.
+	body := interface{}([{id=10, time=1649866772, plot_origin=43780, val={id=str, val=Hello DFMailbox}}, {id=11, time=1649866774, plot_origin=43780, val={id=vec, x=1, y=2, z=3}}]) // interface{} | Items to send. The first item goes in first, last item goes in last.
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)
@@ -755,7 +757,7 @@ import (
 )
 
 func main() {
-	body := interface{}([{id=str, val=Hello DFMailbox}, {id=vec, x=1, y=2, z=3}]) // interface{} | Items to send. The first item goes in first, last item goes in last.
+	body := interface{}([{id=10, time=1649866772, plot_origin=43780, val={id=str, val=Hello DFMailbox}}, {id=11, time=1649866774, plot_origin=43780, val={id=vec, x=1, y=2, z=3}}]) // interface{} | Items to send. The first item goes in first, last item goes in last.
 
 	configuration := openapiclient.NewConfiguration()
 	apiClient := openapiclient.NewAPIClient(configuration)

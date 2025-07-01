@@ -27,6 +27,7 @@ docs/InlineObject5OneOf1.md
 docs/InstanceAPI.md
 docs/InstanceKeyCompromisedError.md
 docs/InstanceUnreachableError.md
+docs/IntroduceInstance409Response.md
 docs/IntroduceInstanceRequest.md
 docs/InvalidChallengeError.md
 docs/InvalidRequestParameterError.md
@@ -53,7 +54,6 @@ docs/PlotAPI.md
 docs/RefreshToken200Response.md
 docs/RefreshToken400Response.md
 docs/RefreshTokenRequest.md
-docs/RegisterPlot409Response.md
 docs/Role.md
 docs/SendItemsError.md
 docs/SendItemsErrorOneOf.md
@@ -87,6 +87,7 @@ model_inline_object_5_one_of.go
 model_inline_object_5_one_of_1.go
 model_instance_key_compromised_error.go
 model_instance_unreachable_error.go
+model_introduce_instance_409_response.go
 model_introduce_instance_request.go
 model_invalid_challenge_error.go
 model_invalid_request_parameter_error.go
@@ -112,7 +113,6 @@ model_plot.go
 model_refresh_token_200_response.go
 model_refresh_token_400_response.go
 model_refresh_token_request.go
-model_register_plot_409_response.go
 model_role.go
 model_send_items_error.go
 model_send_items_error_one_of.go

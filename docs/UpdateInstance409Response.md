@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **Title** | **interface{}** |  | 
 **Status** | **int32** | HTTP status code | 
 **Detail** | **string** |  | 
-**PlotId** | **int32** | An id assigned by DiamondFire to identify a plot, this ID can be used in /plot &lt;plot_id&gt; | 
 **PublicKey** | **string** | A base64 URL encoded ed25519 public key | 
 **InstanceKey** | **string** | A base64 URL encoded ed25519 public key | 
 
@@ -16,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewUpdateInstance409Response
 
-`func NewUpdateInstance409Response(type_ interface{}, title interface{}, status int32, detail string, plotId int32, publicKey string, instanceKey string, ) *UpdateInstance409Response`
+`func NewUpdateInstance409Response(type_ interface{}, title interface{}, status int32, detail string, publicKey string, instanceKey string, ) *UpdateInstance409Response`
 
 NewUpdateInstance409Response instantiates a new UpdateInstance409Response object
 This constructor will assign default values to properties that have it defined,
@@ -129,26 +128,6 @@ and a boolean to check if the value has been set.
 `func (o *UpdateInstance409Response) SetDetail(v string)`
 
 SetDetail sets Detail field to given value.
-
-
-### GetPlotId
-
-`func (o *UpdateInstance409Response) GetPlotId() int32`
-
-GetPlotId returns the PlotId field if non-nil, zero value otherwise.
-
-### GetPlotIdOk
-
-`func (o *UpdateInstance409Response) GetPlotIdOk() (*int32, bool)`
-
-GetPlotIdOk returns a tuple with the PlotId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetPlotId
-
-`func (o *UpdateInstance409Response) SetPlotId(v int32)`
-
-SetPlotId sets PlotId field to given value.
 
 
 ### GetPublicKey
